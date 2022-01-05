@@ -65,6 +65,10 @@ public class Member {
         return this.emailCheckTokenGeneratedAt.isAfter(LocalDateTime.now().minusMinutes(1));
     }
 
+    public boolean isEmailCheckTimeout() {
+        return this.emailCheckTokenGeneratedAt.isBefore(LocalDateTime.now().minusMinutes(3));
+    }
+
     public void completeSignUp() {
         this.emailChecked = true;
     }

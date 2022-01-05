@@ -6,9 +6,10 @@
 
     <div class="py-5 text-center" th:if="${error}">
         <h2>인증 에러</h2>
-        <div class="alert alert-danger" role="alert">
-            <p th:text="${error}"></p>
-        </div>
+        <p class="lead" style="color: red">
+            이메일 인증이 실패하였습니다.
+        </p>
+        <p th:text="${error}">에러 내용</p>
     </div>
 
     <div class="py-5 text-center" th:if="${error == null}">

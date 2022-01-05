@@ -52,6 +52,9 @@ public class MemberController {
         if (member == null || !member.getEmailCheckToken().equals(token)) {
             model.addAttribute("error", "인증 메일에 문제가 있습니다.");
             return "member/checked-email";
+        } else if (member.isEmailCheckTimeout()) {
+            model.addAttribute("error", "이메일 인증 시간이 초과되었습니다. (인증 제한시간 3분)");
+            return "member/checked-email";
         }
         model.addAttribute("member", member);
         memberService.completeSignUp(member);
