@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments.html :: head"></head>
@@ -5,7 +6,71 @@
     <nav th:replace="fragments.html :: nav"></nav>
 
     <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-2">
+                <svg class="img-fluid float-left rounded img-thumbnail" th:data-jdenticon-value="${member.nickname}" width="90%"></svg>
+            </div>
+            <div class="col-8">
+                <h1 class="display-4" th:text="${member.nickname}">닉네임</h1>
+                <p class="lead" th:if="${!#strings.isEmpty(member.description)}" th:text="${member.description}">자기소개</p>
+                <p class="lead" th:if="${#strings.isEmpty(member.description) && equalsMember}">
+                    <a th:href="@{/settings/profile}">
+                        자기소개를 추가해주세요.
+                    </a>
+                </p>
+            </div>
+        </div>
 
+        <div class="row mt-5 justify-content-center">
+            <div class="col-2">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-intro-tab" data-toggle="pill" href="#v-pills-profile"
+                       role="tab" aria-controls="v-pills-profile" aria-selected="true">프로필</a>
+                    <a class="nav-link" id="v-pills-share-tab" data-toggle="pill" href="#v-pills-share"
+                       role="tab" aria-controls="v-pills-share" aria-selected="false">공유 목록</a>
+                    <a class="nav-link" th:if="${equalsMember}" id="v-pills-being-share-tab" data-toggle="pill" href="#v-pills-being-share"
+                       role="tab" aria-controls="v-pills-being-share" aria-selected="false">이용중인 공유</a>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <p th:if="${!#strings.isEmpty(member.email)  && equalsMember}">
+                            <span style="font-size: 20px;">
+                                <svg th:if="${!member.isEmailChecked()}" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+                                </svg>
+                            </span>
+                            <svg th:if="${member.isEmailChecked()}" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-envelope-check" viewBox="0 0 16 16">
+                                <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z"/>
+                                <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686Z"/>
+                            </svg>
+                            <span th:text="${member.email}" class="col-11"></span>
+                            <small class="text-danger" th:if="${!member.isEmailChecked()}">아직 이메일 인증이 완료되지 않았습니다.</small>
+                        </p>
+                        <div th:if="${equalsMember}">
+                            <span style="font-size: 20px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                                    <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+                                </svg>
+                            </span>
+                            <span th:text="${{member.point + ' Point'}}" class="col-11"></span>
+                        </div>
+                        <div th:if="${equalsMember}" class="mt-5">
+                            <a class="btn btn-outline-primary" th:href="@{/settings/profile}">프로필 수정</a>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="v-pills-share" role="tabpanel" aria-labelledby="v-pills-share-tab">
+                        내 공유
+                    </div>
+
+                    <div class="tab-pane fade" id="v-pills-being-share" role="tabpanel" aria-labelledby="v-pills-being-share-tab">
+                        이용중인 공유
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 <body>

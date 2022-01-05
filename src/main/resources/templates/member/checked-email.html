@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xml:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+    <nav th:replace="fragments.html :: nav"></nav>
+
+    <div class="py-5 text-center" th:if="${error}">
+        <h2>인증 에러</h2>
+        <div class="alert alert-danger" role="alert">
+            <p th:text="${error}"></p>
+        </div>
+    </div>
+
+    <div class="py-5 text-center" th:if="${error == null}">
+        <h2>인증 성공</h2>
+        <p class="lead">
+            <span th:text="${member.nickname}"></span>님의 이메일 인증이 완료되었습니다.
+        </p>
+        <small class="text-info">이제부터 공유 서비스를 개설하거나, 참여할 수 있습니다.</small>
+    </div>
+
+</body>
+</html>

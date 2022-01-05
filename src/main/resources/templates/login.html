@@ -4,8 +4,43 @@
 <body class="bg-light">
     <nav th:replace="fragments.html :: nav"></nav>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-</body>
+    <div class="container">
+        <div class="py-5 text-center">
+            <h3>로그인</h3>
+        </div>
+
+        <div class="row justify-content-center">
+            <form class="col-6" th:action="@{/login}" method="post">
+                <div class="alert alert-danger row justify-content-center" role="alert" th:if="${param.error}">
+                    <p>입력하신 정보가 옳바르지 않습니다.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">이메일</label>
+                    <input id="username" type="email" name="username" class="form-control"
+                           placeholder="이메일을 입력해주세요." aria-describedby="emailHelp" required>
+                    <small id="emailHelp" class="form-text text-muted">
+                        가입할 때 입력한 이메일을 입력해주세요.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="password">패스워드</label>
+                    <input id="password" type="password" name="password" class="form-control"
+                           placeholder="비밀번호를 입력해주세요." aria-describedby="passwordHelp" required>
+                    <small id="passwordHelp" class="form-text text-muted">패스워드를 입력하세요.</small>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit"
+                            aria-describedby="submitHelp">로그인</button>
+                    <div class="row justify-content-end">
+                        <small id="submitHelp" class="form-text text-muted">
+                            <a th:href="@{/sign-up}">회원가입</a>
+                        </small>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+<body>
 </html>

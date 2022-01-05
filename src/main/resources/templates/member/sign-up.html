@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
+<html lang="ko" xml:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+    <nav th:replace="fragments.html :: nav"></nav>
+
+    <div class="container">
+        <div class="py-5 text-center">
+            <h3>회원가입</h3>
+        </div>
+        <div class="row justify-content-center">
+            <form class="col-6" th:action="@{/sign-up}" method="post" th:object="${signUpForm}">
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input id="email" type="text" th:field="*{email}" class="form-control" placeholder="이메일을 입력해주세요."
+                           aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted">
+                        로그인에 사용할 이메일을 입력해주세요.
+                    </small>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="nickname">닉네임</label>
+                    <input id="nickname" type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임을 입력해주세요."
+                    aria-describedby="nicknameHelp">
+                    <small id="nicknameHelp" class="form-text text-muted">
+                        특수문자 없이 문자와 숫자로 2자 이상 20자 이내로 입력해주세요.
+                    </small>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">Nickname Error</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">패스워드</label>
+                    <input id="password" type="password" th:field="*{password}" class="form-control" placeholder="비밀번호를 입력해주세요."
+                           aria-describedby="passwordHelp">
+                    <small id="passwordHelp" class="form-text text-muted">
+                        8자리 이상 30자리 이내로 입력해주세요.
+                    </small>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="checkPassword">패스워드 확인</label>
+                    <input id="checkPassword" type="password" th:field="*{checkPassword}" class="form-control" placeholder="패스워드를 한번 더 입력해주세요."
+                           aria-describedby="passwordHelp">
+                    <small id="checkPasswordHelp" class="form-text text-muted">
+                        패스워드를 한번 더 입력해주세요.
+                    </small>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('checkPassword')}" th:errors="*{checkPassword}">checkPassword Error</small>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit" aria-describedby="submitHelp">가입하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
 </html>

@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-Home
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+    <nav th:replace="fragments.html :: nav"></nav>
+    <div class="alert alert-warning text-center" role="alert" th:if="${member != null && !member.emailChecked}">
+        서비스를 정상적으로 이용하시려면 <a th:href="@{/check-email}" class="alert-link">이메일 인증</a>을 완료하세요.
+    </div>
+    <div class="alert alert-info alert-dismissible text-center" role="alert" th:if="${message}">
+        <span th:text="${message}">메시지</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
 </body>
 </html>

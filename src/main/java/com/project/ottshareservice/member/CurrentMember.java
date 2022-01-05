@@ -1,4 +1,4 @@
-package com.graduate.mobilekiosk.web.member;
+package com.project.ottshareservice.member;
 
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-@AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : account")
+@AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : member")
 public @interface CurrentMember {
 }

@@ -1,12 +1,46 @@
+
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments.html :: head"></head>
 <body class="bg-light">
-    <nav th:replace="fragments.html :: nav"></nav>
+<nav th:replace="fragments.html :: nav"></nav>
 
-    <div class="container">
+<div class="container">
+    <div class="row mt-5 justify-content-center">
+        <div class="col-2">
+            <div th:replace="fragments.html :: settings-profile (currentMenu='profile')"></div>
+        </div>
+        <div class="col-8">
+            <div th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${message}">메시지</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="row">
+                <h2 class="col-12" th:text="${member.nickname}">닉네임</h2>
+            </div>
+            <div class="row mt-3">
+                <form class="col" th:action="@{/settings/profile}" th:object="${memberUpdateForm}" method="post">
+                    <div class="form-group">
+                        <label for="description">회원소개</label>
+                        <textarea id="description" type="text" th:field="*{description}" class="form-control" rows="7"
+                                  placeholder="구매자들에게 보여줄 소개를 적어주세요." aria-describedby="descriptionHelp">
+                        </textarea>
+                        <small id="descriptionHelp" class="form-text text-muted">
+                            구매자들에게 보여줄 소개를 적어주세요.
+                        </small>
+                    </div>
 
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="submit"
+                                aria-describedby="submitHelp">수정하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 
 <body>
 </html>

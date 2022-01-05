@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xml:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+    <nav th:replace="fragments.html :: nav"></nav>
+
+    <div class="container">
+        <div class="py-5 text-center" th:if="${member != null && !member.isEmailChecked()}">
+            <h3>이메일 인증</h3>
+            <p class="lead">가입을 환영합니다. 인증을 진행하기 위해 <strong th:text="${member.email}"></strong>에서 메일을 확인해주세요.</p>
+
+            <div>
+                <p class="lead">메일이 정상적으로 도착하지 않았다면, 이메일을 다시 보내기 위해 <a class="btn btn-outline-info" th:href="@{/resend-check-email}">여기</a>를 눌러주세요.</p>
+            </div>
+        </div>
+
+        <div class="py-5 text-center" th:if="${member != null && member.isEmailChecked()}">
+            <h3>이메일 인증</h3>
+            <p class="lead"><strong th:text="${member.nickname}"></strong>는 인증이 완료된 회원입니다.</p>
+        </div>
+
+        <div class="py-5 text-center" th:if="${error}">
+            <h3>이메일 인증</h3>
+            <p class="lead" th:text="${error}"></p>
+            <p>잠시후 다시 시도해주세요.</p>
+            <div>
+                <a class="btn btn-outline-info" th:href="@{/resend-check-email}">이메일 다시보내기</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
