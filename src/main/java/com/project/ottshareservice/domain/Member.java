@@ -6,6 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -19,6 +21,7 @@ public class Member {
 
     @Id
     @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
 
     @Column(unique = true)
@@ -51,6 +54,12 @@ public class Member {
     private boolean keywordNotificationByEmail;
 
     private boolean keywordNotificationByWeb = true;
+
+    @OneToMany(mappedBy = "master")
+    private List<Share> shares = new ArrayList<>();
+
+    @ManyToMany
+    private List<Share> joinedShares = new ArrayList<>();
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.password);

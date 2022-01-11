@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class TestForm {
+public class PaymentGetTokenForm {
 
     private String imp_key;
 

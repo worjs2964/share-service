@@ -1,2 +1,4 @@
-package com.project.ottshareservice.share.form;public class RecruitingDto {
+package com.project.ottshareservice.share.form;
+
+public class RecruitingDto {
 }

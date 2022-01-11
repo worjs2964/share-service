@@ -8,9 +8,8 @@ import lombok.Data;
 @Data
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class PaymentCancelForm {
+public class PaymentSearchForm {
 
     private String impUid;
 
-    private String Authorization;
 }

@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 
 @Component
 @RequiredArgsConstructor
-public class SignUpFormValidator implements Validator {
+public class ShareEditFormValidator implements Validator {
 
     private final MemberRepository memberRepository;
 

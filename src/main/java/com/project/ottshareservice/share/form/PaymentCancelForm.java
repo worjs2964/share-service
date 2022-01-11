@@ -5,9 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class TestForm2 {
+public class PaymentCancelForm {
 
     private String merchant_uid;
-
-    private String Authorization;
 }

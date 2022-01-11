@@ -5,76 +5,75 @@
     <nav th:replace="fragments.html :: nav"></nav>
 
     <div class="container">
-        <div class="py-5 text-center">
-            <h2>새로운 공유 만들기</h2>
-        </div>
         <div class="row justify-content-center">
-            <form class="col-10" th:action="@{/new-share}" th:object="${shareForm}" method="post">
+            <div class="pt-5 col-sm-10">
+                <h3><span style="color: mediumpurple;">공유/판매</span> 등록</h3>
+                <hr style="border: gray 1px solid" />
+            </div>
+
+            <form class="col-sm-10" th:action="@{/new-share}" th:object="${shareForm}" method="post">
                 <div class="row">
-                    <div class="form-group col-6">
-                        <label for="title">스터디 이름</label>
+                    <div class="form-group col-sm-3">
+                        <label for="contentType">공유 카테고리</label>
+                        <select id="contentType" th:field="*{contentType}" class="form-control">
+                            <option th:each="type : ${contentTypes}" th:value="${type}">[[${type.getDescription}]]</option>
+                        </select>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('contentType')}" th:errors="*{contentType}">contentType Error</small>
+                    </div>
+                    <div class="col-1"></div>
+
+                    <div class="form-group col-sm-8">
+                        <label for="title">제목</label>
                         <input id="title" type="text" th:field="*{title}" class="form-control"
-                               placeholder="스터디 이름을 입력해주세요." aria-describedby="titleHelp" required>
-                        <small id="titleHelp" class="form-text text-muted">
-                            스터디 이름을 50자 이내로 입력하세요.
-                        </small>
+                               placeholder="제목을 입력해주세요. (50자 이내)" required>
                         <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</small>
                     </div>
 
-                    <div class="form-group col-6">
-                        <label for="url">공유 URL</label>
-                        <input id="url" type="text" th:field="*{url}" class="form-control"
-                               placeholder="ex) my-share" aria-describedby="urlHelp" required>
-                        <small id="pathHelp" class="form-text text-muted">
-                            문자, 숫자, 대시만 사용하여 2자 이상 20자로 입력하세요.
-                        </small>
-                        <small class="form-text text-danger" th:if="${#fields.hasErrors('url')}" th:errors="*{url}">Url Error</small>
+                    <div class="form-group col-sm-3">
+                        <label for="serviceName">공유 서비스명</label>
+                        <input id="serviceName" type="text" th:field="*{serviceName}" class="form-control"
+                               placeholder="ex) 넷플릭스" required>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('serviceName')}" th:errors="*{serviceName}">serviceName Error</small>
                     </div>
-                </div>
+                    <div class="col-1"></div>
 
-                <div class="row">
-                    <div class="form-group col-3">
-                        <label for="contentType">카테고리</label>
-                        <select id="contentType" th:field="*{contentType}" class="form-control" aria-describedby="contentTypeHelp">
-                            <option th:each="type : ${contentTypes}" th:value="${type}">[[${type.getDescription}]]</option>
-                        </select>
-                        <small id="contentTypeHelp" class="form-text text-muted">
-                            카테고리를 선택해주세요.
-                        </small>
-                        <small class="form-text text-danger" th:if="${#fields.hasErrors('contentType')}" th:errors="*{contentType}">contentType Error</small>
+                    <div class="form-group col-sm-4">
+                        <label for="shareId">공유 ID</label>
+                        <input id="shareId" type="text" th:field="*{shareEmail}" class="form-control"
+                               placeholder="계정 아이디" required>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('shareEmail')}" th:errors="*{shareEmail}">shareId Error</small>
                     </div>
 
-                    <div class="form-group col-3">
-                        <label for="dailyRate">하루당 비용</label>
-                        <input id="dailyRate" type="number" th:field="*{dailyRate}" class="form-control"
-                               placeholder="ex) 120" aria-describedby="dailyRateHelp" required>
-                        <small id="dailyRateHelp" class="form-text text-muted">
-                            하루당 비용을 입력해주세요.
-                        </small>
-                        <small class="form-text text-danger" th:if="${#fields.hasErrors('dailyRate')}" th:errors="*{dailyRate}">dailyRate Error</small>
+                    <div class="form-group col-sm-4">
+                        <label for="sharePassword">공유 Password</label>
+                        <input id="sharePassword" type="text" th:field="*{sharePassword}" class="form-control"
+                               placeholder="비밀번호" required>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('sharePassword')}" th:errors="*{sharePassword}">sharePassword Error</small>
                     </div>
 
-                    <div class="form-group col-3">
+                    <div class="form-group col-sm-3">
                         <label for="recruitmentCount">모집 인원</label>
-                        <input id="recruitmentCount" type="number" min="1" max="5" th:field="*{recruitmentCount}" class="form-control"
-                               placeholder="ex) 5" aria-describedby="recruitmentCountHelp" required>
-                        <small id="recruitmentCountHelp" class="form-text text-muted">
-                            최소 한명에서 최대 다섯명
-                        </small>
+                        <select id="recruitmentCount" th:field="*{recruitmentCount}" class="form-control">
+                            <option th:each="num : ${#numbers.sequence(1,12)}" th:value="${num}">[[${num}]]</option>
+                        </select>
                         <small class="form-text text-danger" th:if="${#fields.hasErrors('recruitmentCount')}" th:errors="*{recruitmentCount}">recruitmentCount Error</small>
                     </div>
 
-                    <div class="form-group col-3">
-                        <label for="shareFinishAt">종료 일자</label>
+                    <div class="form-group col-sm-3">
+                        <label for="dailyRate">하루당 참여 비용</label>
+                        <input id="dailyRate" type="number" th:field="*{dailyRate}" class="form-control"
+                               placeholder="ex) 120" required>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('dailyRate')}" th:errors="*{dailyRate}">dailyRate Error</small>
+                    </div>
+                    <div class="col-3"></div>
+
+                    <div class="form-group col-sm-3">
+                        <label for="shareFinishAt">종료일</label>
                         <input type="text" id="shareFinishAt" th:field="*{shareFinishAt}" class="form-control"
-                               placeholder="날짜를 선택해주세요." aria-describedby="shareFinishAtHelp" required>
-                        <small id="shareFinishAtHelp" class="form-text text-muted">
-                            공유가 종류되는 날짜를 선택해주세요.
-                        </small>
+                               placeholder="날짜를 선택해주세요." required>
                         <small class="form-text text-danger" th:if="${#fields.hasErrors('shareFinishAt')}" th:errors="*{shareFinishAt}">recruitmentCount Error</small>
                     </div>
                 </div>
-
 
                 <div class="form-group">
                     <label for="description">소개</label>
