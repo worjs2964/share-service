@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<nav th:replace="fragments.html :: nav"></nav>
+    <div class="container" th:object="${share}">
+        <div class="pt-5 row justify-content-center">
+            <div class="col-sm-10">
+                <h3 th:text="*{contentType.getDescription()}">카테고리</h3>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${share.isMaster(member)}"
+                   class="btn btn-outline-primary" th:href="@{|/share/${share.id}/edit|}">
+                    수정하기
+                </a>
+            </div>
+            <div class="col-sm-11">
+                <hr style="border: solid 1px mediumpurple;"/>
+                <div th:replace="fragments.html :: message"></div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-1">
+                <svg th:data-jdenticon-value="*{master.getNickname()}" width="100%" class="rounded bg-light border"></svg>
+            </div>
+            <div class="col-sm-10">
+                <div class="row">
+                    <p class="lead" th:text="*{serviceName}">서비스명</p>
+                </div>
+                <div class="row">
+                    <h2 th:text="*{title}" style="font-weight: normal">제목</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-11">
+                <hr/>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-11">
+                <p><a th:href="|/profile/*{master.getNickname()}|">[[*{master.getNickname()}]]</a>님의 공유</p>
+                <hr/>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-3 align-self-center">
+                <p>종료일: <span style="font-weight: lighter">[[*{shareFinishAt}]] ([[${share.getDday()}]]일 / 일 평균 [[*{#numbers.formatInteger(dailyRate, 0, 'COMMA')}]]원)</span>
+                </p>
+            </div>
+            <div class="col-sm-8 align-self-center">
+                <p>참여비용: <span style="font-weight: bold; color: mediumpurple; font-size: x-large">[[${#numbers.formatInteger(share.getTotalCost(), 0, 'COMMA')}]]</span>원
+                </p>
+            </div>
+            <div class="col-sm-11">
+                <hr/>
+            </div>
+        </div>
+        <div class="row mt-5 justify-content-center">
+            <div class="col-sm-11 row">
+                <div class="col-sm-2" th:each="user : ${share.getMembers()}">
+                    <svg th:data-jdenticon-value="${user.getNickname()}" th:aria-describedby="${user.getNickname()}" width="100%" class="rounded bg-light border"></svg>
+                    <small th:id="${user.getNickname()}" class="form-text text-muted text-center">
+                        <strong>
+                            [[${user.getNickname()}]]
+                        </strong>
+                    </small>
+                </div>
+
+                <div class="col-sm-2" th:each="num : *{#numbers.sequence(1, recruitmentCount)}">
+                    <img src="/images/emptyMember.png" alt="빈멤버" th:aria-describedby="|emptyMember${num}|" width="100%" class="rounded bg-light border" style="filter: brightness(60%);"/>
+                    <small th:id="|emptyMember${num}|" class="form-text text-muted text-center">
+                        <strong>
+                            아직 모집중!
+                        </strong>
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="row my-5 justify-content-center" style="padding: 0;">
+            <div class="col-sm-11 rounded p-3" th:utext="*{description}" style="background-color: #F7F7F7; border: solid 1px lightgray;"></div>
+        </div>
+        <div class="row mb-5 justify-content-center ">
+            <a class="col-sm-3 btn btn-lg m-1" style="background-color: lightgray; color: white;">
+                목록
+            </a>
+            <a class="col-sm-3 btn btn-lg m-1" style="background-color: mediumpurple; color: white;"
+               th:if="${!share.isMaster(member)}">
+                참여신청
+            </a>
+            <a class="col-sm-3 btn btn-lg btn-primary m-1"
+               th:if="${share.isMaster(member)}" th:href="@{|/share/${share.id}/edit|}">
+                수정하기
+            </a>
+        </div>
+    </div>
+
+
+</body>
+</html>
