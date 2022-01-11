@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+    <nav th:replace="fragments.html :: nav"></nav>
+
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>새로운 공유 만들기</h2>
+        </div>
+        <div class="row justify-content-center">
+            <form class="col-10" th:action="@{/new-share}" th:object="${shareForm}" method="post">
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="title">스터디 이름</label>
+                        <input id="title" type="text" th:field="*{title}" class="form-control"
+                               placeholder="스터디 이름을 입력해주세요." aria-describedby="titleHelp" required>
+                        <small id="titleHelp" class="form-text text-muted">
+                            스터디 이름을 50자 이내로 입력하세요.
+                        </small>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</small>
+                    </div>
+
+                    <div class="form-group col-6">
+                        <label for="url">공유 URL</label>
+                        <input id="url" type="text" th:field="*{url}" class="form-control"
+                               placeholder="ex) my-share" aria-describedby="urlHelp" required>
+                        <small id="pathHelp" class="form-text text-muted">
+                            문자, 숫자, 대시만 사용하여 2자 이상 20자로 입력하세요.
+                        </small>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('url')}" th:errors="*{url}">Url Error</small>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-3">
+                        <label for="contentType">카테고리</label>
+                        <select id="contentType" th:field="*{contentType}" class="form-control" aria-describedby="contentTypeHelp">
+                            <option th:each="type : ${contentTypes}" th:value="${type}">[[${type.getDescription}]]</option>
+                        </select>
+                        <small id="contentTypeHelp" class="form-text text-muted">
+                            카테고리를 선택해주세요.
+                        </small>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('contentType')}" th:errors="*{contentType}">contentType Error</small>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="dailyRate">하루당 비용</label>
+                        <input id="dailyRate" type="number" th:field="*{dailyRate}" class="form-control"
+                               placeholder="ex) 120" aria-describedby="dailyRateHelp" required>
+                        <small id="dailyRateHelp" class="form-text text-muted">
+                            하루당 비용을 입력해주세요.
+                        </small>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('dailyRate')}" th:errors="*{dailyRate}">dailyRate Error</small>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="recruitmentCount">모집 인원</label>
+                        <input id="recruitmentCount" type="number" min="1" max="5" th:field="*{recruitmentCount}" class="form-control"
+                               placeholder="ex) 5" aria-describedby="recruitmentCountHelp" required>
+                        <small id="recruitmentCountHelp" class="form-text text-muted">
+                            최소 한명에서 최대 다섯명
+                        </small>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('recruitmentCount')}" th:errors="*{recruitmentCount}">recruitmentCount Error</small>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label for="shareFinishAt">종료 일자</label>
+                        <input type="text" id="shareFinishAt" th:field="*{shareFinishAt}" class="form-control"
+                               placeholder="날짜를 선택해주세요." aria-describedby="shareFinishAtHelp" required>
+                        <small id="shareFinishAtHelp" class="form-text text-muted">
+                            공유가 종류되는 날짜를 선택해주세요.
+                        </small>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('shareFinishAt')}" th:errors="*{shareFinishAt}">recruitmentCount Error</small>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="description">소개</label>
+                    <textarea id="description" type="textarea" th:field="*{description}" class="form-control"
+                              placeholder="공유에 대해 소개해주세요." aria-describedby="descriptionHelp"></textarea>
+                    <small id="descriptionHelp" class="form-text text-muted">
+                        공유의 규칙 및 주의사항을 적어주세요.
+                    </small>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</small>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit"
+                            aria-describedby="submitHelp">공유 만들기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/node_modules/summernote/dist/summernote-bs4.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            $('#description').summernote({
+                placeholder: '공유에 대한 내용, 규칙, 주의사항등을 적어주세요.',
+                tabsize: 2,
+                height: 200
+            });
+        });
+    </script>
+
+    <script>
+        $(function() {
+            $('#shareFinishAt').datepicker({
+                format: "yyyy-mm-dd",
+                startDate: '0',
+                autoclose : true,
+                templates : {
+                    leftArrow: '&laquo;',
+                    rightArrow: '&raquo;'
+                },
+                title: "종료 일자 선택",
+                todayHighlight : true,
+                language : "ko"
+
+            });
+        });
+    </script>
+    <body>
+</html>
