@@ -7,13 +7,10 @@ import com.project.ottshareservice.member.form.SignUpForm;
 import com.project.ottshareservice.settings.form.MemberUpdateForm;
 import com.project.ottshareservice.settings.form.NicknameForm;
 import com.project.ottshareservice.settings.form.NotificationsForm;
-import com.project.ottshareservice.settings.form.PasswordForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -96,7 +92,7 @@ public class MemberService implements UserDetailsService {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 new UserAccount(member),
                 member.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                List.of(new SimpleGrantedAuthority(member.getRole()))
         );
         SecurityContextHolder.getContext().setAuthentication(token);
 
@@ -135,7 +131,7 @@ public class MemberService implements UserDetailsService {
     }
 
     public void completeSignUp(Member member) {
-        member.completeSignUp();
+        member.completeCheck();
         signIn(member);
     }
 }

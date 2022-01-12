@@ -78,8 +78,9 @@ public class Member {
         return this.emailCheckTokenGeneratedAt.isBefore(LocalDateTime.now().minusMinutes(3));
     }
 
-    public void completeSignUp() {
+    public void completeCheck() {
         this.emailChecked = true;
+        this.role = "CHECKED_USER";
     }
 
     public void plusPoint(Long point) {

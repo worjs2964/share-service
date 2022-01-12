@@ -9,6 +9,7 @@ import com.project.ottshareservice.settings.form.NicknameForm;
 import com.project.ottshareservice.settings.form.NotificationsForm;
 import com.project.ottshareservice.settings.form.PasswordForm;
 import com.project.ottshareservice.settings.validator.NicknameValidator;
+import com.project.ottshareservice.settings.validator.NotificationsValidator;
 import com.project.ottshareservice.settings.validator.PasswordValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +30,7 @@ public class SettingsController {
     private final MemberService memberService;
     private final PasswordValidator passwordValidator;
     private final NicknameValidator nicknameValidator;
+    private final NotificationsValidator notificationsValidator;
 
     @GetMapping("/settings/profile")
     public String profileUpdateForm(@CurrentMember Member member, Model model) {
@@ -75,6 +77,7 @@ public class SettingsController {
 
     @GetMapping("/settings/notifications")
     public String notificationsUpdateForm(@CurrentMember Member member, Model model) {
+        model.addAttribute(member);
         model.addAttribute("notificationsForm", new NotificationsForm(member));
         return "settings/notifications";
     }
@@ -82,7 +85,9 @@ public class SettingsController {
     @PostMapping("/settings/notifications")
     public String notificationsUpdate(@CurrentMember Member member, @Validated @ModelAttribute NotificationsForm notificationsForm,
                                  BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        notificationsValidator.validate(notificationsForm, member, bindingResult);
         if (bindingResult.hasErrors()) {
+            model.addAttribute(member);
             return "settings/notifications";
         }
 

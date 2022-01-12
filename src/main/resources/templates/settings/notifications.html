@@ -4,6 +4,9 @@
 <head th:replace="fragments.html :: head"></head>
 <body class="bg-light">
 <nav th:replace="fragments.html :: nav"></nav>
+<div class="alert alert-warning text-center" role="alert" th:if="${member != null && !member.emailChecked}">
+    서비스를 정상적으로 이용하시려면 <a th:href="@{/check-email}" class="alert-link">이메일 인증</a>을 완료하세요.
+</div>
 
 <div class="container">
     <div class="row mt-5 justify-content-center">
@@ -14,6 +17,7 @@
             <div th:replace="fragments.html :: message"></div>
             <div class="row">
                 <h2 class="col-12">알림 설정</h2>
+                <p class="col" th:if="${!member.isEmailChecked()}" style="color: red">이메일 인증을 완료하지 않으면 이메일 알림을 사용할 수 없습니다.</p>
             </div>
             <div class="row mt-3">
                 <form class="col-12" th:action="@{/settings/notifications}" th:object="${notificationsForm}" method="post">
@@ -23,8 +27,9 @@
                             <label class="custom-control-label" for="notificationByWeb">웹으로 받기</label>
                         </div>
                         <div class="custom-control custom-switch custom-control-inline">
-                            <input type="checkbox" th:field="*{notificationByEmail}" class="custom-control-input" id="notificationByEmail">
+                            <input type="checkbox" th:field="*{notificationByEmail}" class="custom-control-input" id="notificationByEmail" th:disabled="${!member.isEmailChecked()}">
                             <label class="custom-control-label" for="notificationByEmail">이메일로 받기</label>
+                            <small class="form-text text-danger" th:if="${#fields.hasErrors('notificationByEmail')}" th:errors="*{notificationByEmail}">notificationByEmail Error</small>
                         </div>
                     </div>
                     <div class="alert alert-light" role="alert">
@@ -39,8 +44,9 @@
                             <label class="custom-control-label" for="keywordNotificationByWeb">웹으로 받기</label>
                         </div>
                         <div class="custom-control custom-switch custom-control-inline">
-                            <input type="checkbox" th:field="*{keywordNotificationByEmail}" class="custom-control-input" id="keywordNotificationByEmail">
+                            <input type="checkbox" th:field="*{keywordNotificationByEmail}" class="custom-control-input" id="keywordNotificationByEmail" th:disabled="${!member.isEmailChecked()}">
                             <label class="custom-control-label" for="keywordNotificationByEmail">이메일로 받기</label>
+                            <small class="form-text text-danger" th:if="${#fields.hasErrors('keywordNotificationByEmail')}" th:errors="*{keywordNotificationByEmail}">keywordNotificationByEmail Error</small>
                         </div>
                     </div>
                     <div class="alert alert-light" role="alert">
