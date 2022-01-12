@@ -56,7 +56,7 @@ public class ShareController {
     @GetMapping("/share/{shareId}")
     private String shareView(@CurrentMember Member member, @PathVariable Long shareId, Model model) {
         Share share = shareRepository.findById(shareId).get();
-        if (!share.isRecruiting() && !share.checkAlreadyJoinMember(member)) {
+        if (!share.isRecruiting() && !share.checkAlreadyJoinMember(member) && !share.isMaster(member)) {
             throw new UrlNotFoundException();
         }
         model.addAttribute(share);

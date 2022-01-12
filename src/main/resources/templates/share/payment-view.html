@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments.html :: head"></head>
+<!--결제용-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <body class="bg-light">
 <nav th:replace="fragments.html :: nav"></nav>
     <div class="container" th:object="${share}">
@@ -20,8 +23,7 @@
                 <div class="row">
                     <p class="lead col" th:text="*{serviceName}">서비스명</p>
                     <div class="col text-right">
-                        <p>종료일: <span style="font-weight: lighter">[[*{shareFinishAt}]] ([[${share.getDday()}]]일 / 일 평균 [[*{#numbers.formatInteger(dailyRate, 0, 'COMMA')}]]원)</span>
-                        </p>
+                        <p>종료일: <span style="font-weight: lighter">[[*{shareFinishAt}]] ([[${share.getDday()}]]일 / 일 평균 [[*{#numbers.formatInteger(dailyRate, 0, 'COMMA')}]]원)</span></p>
                     </div>
                 </div>
                 <div class="row">
@@ -71,13 +73,50 @@
             th:href="@{|/share/${share.id}|}">
                 뒤로가기
             </a>
-            <a class="col-sm-3 btn btn-lg m-1" style="background-color: mediumpurple; color: white;"
-               th:href="@{|/complete/${share.id}|}">
+            <button class="col-sm-3 btn btn-lg m-1" style="background-color: mediumpurple; color: white;"
+               onclick="requestPay();">
                 결제하기
-            </a>
+            </button>
         </div>
     </div>
 
+    <script th:replace="fragments.html :: csrf"></script>
+    <script th:inline="javascript">
+        var IMP = window.IMP;
+        IMP.init("imp20662518");
 
+        function requestPay() {
+            IMP.request_pay({
+                pg: "html5_inicis",
+                pay_method: "card",
+                merchant_uid: [[${member.nickname}]] + Date.now(),
+                name: [[${share.title}]],
+                amount: [[${share.getTotalCost()}]],
+                buyer_email: [[${member.email}]],
+                digital: true
+            }, function (rsp) {
+                if (rsp.success) {
+                    jQuery.ajax({
+                        url: "/share/"+[[${shareId}]]+"/payment",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        method: "POST",
+                        data: JSON.stringify({
+                            imp_uid: rsp.imp_uid
+                        })
+                    }).done(function (data) {
+                        if (data) {
+                            alert("결제가 완료되었습니다.");
+                        } else {
+                            alert("참여에 문제가 생겨 결제가 취소(환불)됩니다.");
+                        }
+                        location.href = "/share/" + [[${share.id}]];
+                    })
+                } else {
+                    alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+                }
+            });
+        }
+    </script>
 </body>
 </html>

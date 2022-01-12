@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class PaymentHistoryDto {
+public class PaymentCostDto {
 
     private PaymentHistory response;
 
