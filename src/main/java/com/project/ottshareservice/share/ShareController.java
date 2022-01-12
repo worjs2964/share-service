@@ -107,6 +107,17 @@ public class ShareController {
         return "share/payment-view";
     }
 
+    @GetMapping("/share/{shareId}/info")
+    private String shareInfo(@CurrentMember Member member, @PathVariable Long shareId, Model model) {
+        Share share = shareRepository.findById(shareId).get();
+        if (!share.checkAlreadyJoinMember(member)) {
+            throw new UrlNotFoundException();
+        }
+        model.addAttribute(share);
+        model.addAttribute(member);
+        return "share/info-view";
+    }
+
     @PostMapping("/share/{shareId}/recruiting")
     @ResponseBody
     private Boolean changeRecruiting(@CurrentMember Member member, @PathVariable Long shareId,

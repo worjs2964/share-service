@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<nav th:replace="fragments.html :: nav"></nav>
+    <div class="container" th:object="${share}">
+        <div class="pt-5 row justify-content-center">
+            <div class="col-sm-11">
+                <h3>정보확인</h3>
+            </div>
+            <div class="col-sm-11">
+                <hr style="border: solid 1px mediumpurple;"/>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-1">
+                <svg th:data-jdenticon-value="*{master.getNickname()}" width="100%" class="rounded bg-light border"></svg>
+            </div>
+            <div class="col-sm-10">
+                <div class="row">
+                    <p class="lead col" th:text="*{serviceName}">서비스명</p>
+                    <div class="col text-right">
+                        <p>종료일: <span style="font-weight: lighter">[[*{shareFinishAt}]] ([[${share.getDday()}]]일)</span></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <h2 class="col" th:text="*{title}" style="font-weight: normal">제목</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-11">
+                <hr/>
+            </div>
+        </div>
+        <div class="row justify-content-center my-5">
+            <div class="col-sm-11 text-center mb-3" style="font-weight: bold; font-size: x-large; color: mediumpurple;">
+                <p>계정: <span>[[${share.shareEmail}]]</span></p>
+                <p>비밀번호: <span>[[${share.sharePassword}]]</span></p>
+            </div>
+
+            <div class="col-11 text-center">
+                <p style="color: red;">본 서비스는 실제 서비스가 아닌 학습용 서비스로, 결제된 금액은 매일 밤 자정에 환불됩니다.</p>
+            </div>
+
+            <div class="col-sm-11 rounded p-3" th:utext="*{description}" style="background-color: #F7F7F7; border: solid 1px lightgray;"></div>
+        </div>
+
+        <div class="row my-5 justify-content-center ">
+            <a class="col-sm-3 btn btn-lg m-1" style="background-color: lightgray; color: white;"
+            th:href="@{|/share/${share.id}|}">
+                뒤로가기
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

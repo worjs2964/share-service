@@ -24,7 +24,6 @@ spring:
           timeout: 5000
           starttls:
             enable: true
-
 imp:
   key: "4494785277525114"
   secret: "gggehvrIE9Tx2zc2m2ettCBrhBLYZtZgJgu1LWJp5DX7daazco2G1E8ifUgfngv7w08iWSI1wF9KQjj2"

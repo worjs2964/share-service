@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments.html :: head"></head>
 <body class="bg-light">
 <nav th:replace="fragments.html :: nav"></nav>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-
-    <div class="container" th:object="${share}">
+<div class="container" th:object="${share}">
         <div class="pt-5 row justify-content-center">
             <div class="col-sm-8">
                 <h3 th:text="*{contentType.getDescription()}">카테고리</h3>
@@ -96,6 +94,11 @@
                th:if="${share.canJoin() && !share.checkAlreadyJoinMember(member) && !share.isMaster(member)}"
                th:href="@{|/share/${share.id}/payment|}">
                 참여신청
+            </a>
+            <a class="col-sm-3 btn btn-lg m-1" style="background-color: mediumpurple; color: white;"
+               th:if="${share.checkAlreadyJoinMember(member)}"
+               th:href="@{|/share/${share.id}/info|}">
+                공유 정보
             </a>
             <a class="col-sm-3 btn btn-lg btn-primary m-1"
             th:if="${share.isMaster(member)}" th:href="@{|/share/${share.id}/edit|}">
