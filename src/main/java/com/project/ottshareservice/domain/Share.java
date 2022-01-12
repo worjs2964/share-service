@@ -2,8 +2,11 @@ package com.project.ottshareservice.domain;
 
 import com.project.ottshareservice.member.UserAccount;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -22,12 +25,16 @@ public class Share {
     @Column(name = "share_id")
     private Long id;
 
+    @NotBlank
     private String title;
 
+    @NotBlank
     private String serviceName;
 
+    @NotBlank
     private String shareEmail;
 
+    @NotBlank
     private String sharePassword;
 
     @Enumerated(EnumType.STRING)
@@ -36,8 +43,10 @@ public class Share {
     @Lob
     private String description;
 
+    @NotNull
     private Long dailyRate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate shareFinishAt;
 
     private boolean recruiting = false;
@@ -69,7 +78,7 @@ public class Share {
     }
 
     public boolean canJoin() {
-        return recruitmentCount > getJoinMemberCount();
+        return recruitmentCount > getJoinMemberCount() && shareFinishAt.isAfter(LocalDate.now().minusDays(1));
     }
 
     public Long getJoinMemberCount() {
@@ -82,6 +91,7 @@ public class Share {
 
     public void join(Member member) {
         members.add(member);
+        master.plusPoint(getCost());
     }
 
 

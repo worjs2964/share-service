@@ -32,4 +32,25 @@ public class ShareService {
                 .shareFinishAt(shareForm.getShareFinishAt())
                 .master(member).build();
     }
+
+    public void editShare(Share share, ShareForm shareForm) {
+        share.setTitle(shareForm.getTitle());
+        share.setServiceName(shareForm.getServiceName());
+        share.setShareEmail(shareForm.getShareEmail());
+        share.setSharePassword(shareForm.getSharePassword());
+        share.setShareFinishAt(shareForm.getShareFinishAt());
+        share.setContentType(shareForm.getContentType());
+        share.setDescription(shareForm.getDescription());
+        share.setRecruitmentCount(shareForm.getRecruitmentCount());
+        share.setDailyRate(shareForm.getDailyRate());
+    }
+
+    public void join(Share share, Member member) {
+        share.join(member);
+    }
+
+    public Boolean changeRecruiting(Share share, boolean recruiting) {
+        share.setRecruiting(recruiting);
+        return share.isRecruiting();
+    }
 }

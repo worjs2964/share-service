@@ -3,6 +3,7 @@ package com.project.ottshareservice.member;
 import com.project.ottshareservice.domain.Member;
 import com.project.ottshareservice.member.form.SignUpForm;
 import com.project.ottshareservice.member.validator.ShareEditFormValidator;
+import com.project.ottshareservice.member.validator.SignUpFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberRepository memberRepository;
-    private final ShareEditFormValidator signUpFormValidator;
+    private final SignUpFormValidator signUpFormValidator;
 
     @GetMapping("/sign-up")
     public String signUpForm(Model model) {

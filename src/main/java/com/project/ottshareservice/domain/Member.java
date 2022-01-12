@@ -81,4 +81,8 @@ public class Member {
     public void completeSignUp() {
         this.emailChecked = true;
     }
+
+    public void plusPoint(Long point) {
+        this.point += point;
+    }
 }
