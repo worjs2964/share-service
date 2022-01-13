@@ -27,9 +27,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/", "/login", "/logout").permitAll()
+                .mvcMatchers("/login", "/logout").permitAll()
+                .antMatchers("/share/*").permitAll()
+                .antMatchers("/share/*/**").authenticated()
                 .mvcMatchers("/settings/**", "/check-email").authenticated()
-                .mvcMatchers("/share/**").hasRole("USER")
                 .mvcMatchers("/new-share").hasRole("CHECKED_USER")
                 .mvcMatchers("/sign-up").anonymous()
                 .expressionHandler(expressionHandler());

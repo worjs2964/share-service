@@ -60,7 +60,6 @@ public class ShareController {
             throw new UrlNotFoundException();
         }
         model.addAttribute(share);
-        model.addAttribute(member);
 
         return "share/view";
     }

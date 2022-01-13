@@ -9,13 +9,13 @@
                 <h3 th:text="*{contentType.getDescription()}">카테고리</h3>
             </div>
             <div class="col-sm-3 text-right">
-                <a th:if="${share.isMaster(member)}"
+                <a th:if="${share.isMaster(#authentication.getPrincipal())}"
                    class="btn btn-outline-primary" th:href="@{|/share/${share.id}/edit|}">
                     수정하기
                 </a>
-                <span th:if="${share.checkAlreadyJoinMember(member)}" style="font-weight: bold; color: mediumpurple; font-size: x-large">참여중</span>
-                <span th:if="${share.canJoin() && !share.checkAlreadyJoinMember(member) && !share.isMaster(member)}" style="font-weight: bold; color: mediumpurple; font-size: x-large">모집중</span>
-                <span th:if="${!share.canJoin() && !share.checkAlreadyJoinMember(member) && !share.isMaster(member)}" style="font-weight: bold; color: gray; font-size: x-large">마감됨</span>
+                <span th:if="${share.checkAlreadyJoinMember(#authentication.getPrincipal())}" style="font-weight: bold; color: mediumpurple; font-size: x-large">참여중</span>
+                <span th:if="${share.canJoin() && !share.checkAlreadyJoinMember(#authentication.getPrincipal()) && !share.isMaster(#authentication.getPrincipal())}" style="font-weight: bold; color: mediumpurple; font-size: x-large">모집중</span>
+                <span th:if="${!share.canJoin() && !share.checkAlreadyJoinMember(#authentication.getPrincipal()) && !share.isMaster(#authentication.getPrincipal())}" style="font-weight: bold; color: gray; font-size: x-large">마감됨</span>
             </div>
             <div class="col-sm-11">
                 <hr style="border: solid 1px mediumpurple;"/>
@@ -29,7 +29,7 @@
             <div class="col-sm-10">
                 <div class="row">
                     <p class="lead col" th:text="*{serviceName}">서비스명</p>
-                    <div class="custom-control custom-switch col text-right" th:if="${share.isMaster(member)}">
+                    <div class="custom-control custom-switch col text-right" th:if="${share.isMaster(#authentication.getPrincipal())}">
                         <input type="checkbox" th:field="*{recruiting}" class="custom-control-input" id="recruiting">
                         <label class="custom-control-label" for="recruiting"><strong id="recruiting-label"></strong></label>
                     </div>
@@ -91,24 +91,24 @@
                 목록
             </a>
             <a class="col-sm-3 btn btn-lg m-1" style="background-color: mediumpurple; color: white;"
-               th:if="${share.canJoin() && !share.checkAlreadyJoinMember(member) && !share.isMaster(member)}"
+               th:if="${share.canJoin() && !share.checkAlreadyJoinMember(#authentication.getPrincipal()) && !share.isMaster(#authentication.getPrincipal())}"
                th:href="@{|/share/${share.id}/payment|}">
                 참여신청
             </a>
             <a class="col-sm-3 btn btn-lg m-1" style="background-color: mediumpurple; color: white;"
-               th:if="${share.checkAlreadyJoinMember(member)}"
+               th:if="${share.checkAlreadyJoinMember(#authentication.getPrincipal())}"
                th:href="@{|/share/${share.id}/info|}">
                 공유 정보
             </a>
             <a class="col-sm-3 btn btn-lg btn-primary m-1"
-            th:if="${share.isMaster(member)}" th:href="@{|/share/${share.id}/edit|}">
+            th:if="${share.isMaster(#authentication.getPrincipal())}" th:href="@{|/share/${share.id}/edit|}">
                 수정하기
             </a>
         </div>
     </div>
 
-    <script th:replace="fragments.html :: csrf" th:if="${share.isMaster(member)}"></script>
-    <script th:inline="javascript" th:if="${share.isMaster(member)}">
+    <script th:replace="fragments.html :: csrf" th:if="${share.isMaster(#authentication.getPrincipal())}"></script>
+    <script th:inline="javascript" th:if="${share.isMaster(#authentication.getPrincipal())}">
         let recruiting = document.getElementById('recruiting');
         let label = document.getElementById('recruiting-label');
         window.onload = function () {

@@ -61,8 +61,22 @@ public class Share {
     @ManyToMany
     private List<Member> members = new ArrayList<>();
 
-    public boolean isMaster(Member member) {
-        return this.master.equals(member);
+    public boolean isMaster(Object member) {
+        if (member.getClass() == Member.class) {
+            return this.master.equals(member);
+        } else if (member.getClass() == UserAccount.class) {
+            return this.master.equals(((UserAccount) member).getMember());
+        }
+        return false;
+    }
+
+    public boolean checkAlreadyJoinMember(Object member) {
+        if (member.getClass() == Member.class) {
+            return this.members.contains(member);
+        } else if (member.getClass() == UserAccount.class) {
+            return this.members.contains(((UserAccount) member).getMember());
+        }
+        return false;
     }
 
     public long getDday() {
@@ -77,16 +91,12 @@ public class Share {
         return (long) (getCost() * 1.1);
     }
 
-    public boolean canJoin() {
-        return recruitmentCount > getJoinMemberCount() && shareFinishAt.isAfter(LocalDate.now().minusDays(1));
-    }
-
     public Long getJoinMemberCount() {
         return members.stream().count();
     }
 
-    public boolean checkAlreadyJoinMember(Member member) {
-        return members.contains(member);
+    public boolean canJoin() {
+        return recruitmentCount > getJoinMemberCount() && shareFinishAt.isAfter(LocalDate.now().minusDays(1));
     }
 
     public void join(Member member) {
