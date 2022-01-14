@@ -1,8 +1,13 @@
 package com.project.ottshareservice.settings;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.ottshareservice.domain.Keyword;
 import com.project.ottshareservice.domain.Member;
+import com.project.ottshareservice.keyword.KeywordRepository;
+import com.project.ottshareservice.keyword.KeywordService;
+import com.project.ottshareservice.keyword.form.KeywordForm;
 import com.project.ottshareservice.member.CurrentMember;
-import com.project.ottshareservice.member.MemberRepository;
 import com.project.ottshareservice.member.MemberService;
 import com.project.ottshareservice.settings.form.MemberUpdateForm;
 import com.project.ottshareservice.settings.form.NicknameForm;
@@ -12,25 +17,29 @@ import com.project.ottshareservice.settings.validator.NicknameValidator;
 import com.project.ottshareservice.settings.validator.NotificationsValidator;
 import com.project.ottshareservice.settings.validator.PasswordValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
 public class SettingsController {
 
     private final MemberService memberService;
+    private final KeywordRepository keywordRepository;
+    private final KeywordService keywordService;
     private final PasswordValidator passwordValidator;
     private final NicknameValidator nicknameValidator;
     private final NotificationsValidator notificationsValidator;
+    private final ObjectMapper objectMapper;
 
     @GetMapping("/settings/profile")
     public String profileUpdateForm(@CurrentMember Member member, Model model) {
@@ -84,7 +93,7 @@ public class SettingsController {
 
     @PostMapping("/settings/notifications")
     public String notificationsUpdate(@CurrentMember Member member, @Validated @ModelAttribute NotificationsForm notificationsForm,
-                                 BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+                                      BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         notificationsValidator.validate(notificationsForm, member, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute(member);
@@ -123,5 +132,34 @@ public class SettingsController {
         memberService.logout();
         redirectAttributes.addFlashAttribute("message", "정상적으로 회원탈퇴가 되었습니다. 이용해주셔서 감사합니다.");
         return "redirect:/";
+    }
+
+    @GetMapping("/settings/keywords")
+    public String viewKeywords(@CurrentMember Member member, Model model) throws JsonProcessingException {
+        model.addAttribute(member);
+
+        Set<Keyword> tags = memberService.getKeywords(member);
+        model.addAttribute("keywords", tags.stream().map(Keyword::getKeyword).collect(Collectors.toList()));
+
+        List<String> keywords = keywordRepository.findAll().stream().map(Keyword::getKeyword).collect(Collectors.toList());
+        model.addAttribute("whitelist", objectMapper.writeValueAsString(keywords));
+
+        return "settings/keywords";
+    }
+
+    @PostMapping("/settings/keywords/add")
+    @ResponseBody
+    public ResponseEntity addKeyword(@CurrentMember Member member, @RequestBody KeywordForm keywordForm) {
+        Keyword keyword = keywordService.findOrCreateNew(keywordForm.getKeyword());
+        memberService.addKeyword(member, keyword);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/settings/keywords/remove")
+    @ResponseBody
+    public ResponseEntity deleteKeyword(@CurrentMember Member member, @RequestBody KeywordForm keywordForm) {
+        Keyword keyword = keywordService.findOrCreateNew(keywordForm.getKeyword());
+        memberService.removeKeyword(member, keyword);
+        return ResponseEntity.ok().build();
     }
 }

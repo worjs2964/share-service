@@ -1,5 +1,6 @@
 package com.project.ottshareservice.member;
 
+import com.project.ottshareservice.domain.Keyword;
 import com.project.ottshareservice.domain.Member;
 import com.project.ottshareservice.mail.EmailMessage;
 import com.project.ottshareservice.mail.MailSender;
@@ -21,6 +22,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -133,5 +135,19 @@ public class MemberService implements UserDetailsService {
     public void completeSignUp(Member member) {
         member.completeCheck();
         signIn(member);
+    }
+
+    public Set<Keyword> getKeywords(Member member) {
+        return memberRepository.findById(member.getId()).get().getKeywords();
+    }
+
+    public void addKeyword(Member member, Keyword keyword) {
+        Member findMember = memberRepository.findById(member.getId()).get();
+        findMember.getKeywords().add(keyword);
+    }
+
+    public void removeKeyword(Member member, Keyword keyword) {
+        Member findMember = memberRepository.findById(member.getId()).get();
+        findMember.getKeywords().remove(keyword);
     }
 }

@@ -10,7 +10,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -51,6 +53,8 @@ public class Share {
 
     private boolean recruiting = false;
 
+    private boolean firstPublic = false;
+
     @Column(nullable = false)
     private Long recruitmentCount;
 
@@ -61,8 +65,13 @@ public class Share {
     @ManyToMany
     private List<Member> members = new ArrayList<>();
 
+    @ManyToMany
+    private Set<Keyword> keywords = new HashSet<>();
+
     public boolean isMaster(Object member) {
-        if (member.getClass() == Member.class) {
+        if (member == null) {
+            return false;
+        } else if (member.getClass() == Member.class) {
             return this.master.equals(member);
         } else if (member.getClass() == UserAccount.class) {
             return this.master.equals(((UserAccount) member).getMember());
@@ -71,7 +80,9 @@ public class Share {
     }
 
     public boolean checkAlreadyJoinMember(Object member) {
-        if (member.getClass() == Member.class) {
+        if (member == null) {
+            return false;
+        } else if (member.getClass() == Member.class) {
             return this.members.contains(member);
         } else if (member.getClass() == UserAccount.class) {
             return this.members.contains(((UserAccount) member).getMember());
@@ -79,12 +90,12 @@ public class Share {
         return false;
     }
 
-    public long getDday() {
+    public long getRamainDays() {
         return ChronoUnit.DAYS.between(LocalDate.now(), this.shareFinishAt) + 1;
     }
 
     public Long getCost() {
-        return getDday() * dailyRate;
+        return getRamainDays() * dailyRate;
     }
 
     public Long getTotalCost() {

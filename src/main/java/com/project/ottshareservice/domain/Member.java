@@ -6,9 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -27,22 +25,21 @@ public class Member {
     @Column(unique = true)
     private String email;
 
+    private boolean emailChecked = false;
+
     private String emailCheckToken;
 
     private LocalDateTime emailCheckTokenGeneratedAt;
 
-    private boolean emailChecked = false;
-
     @Column(unique = true)
     private String nickname;
+
+    private String password;
 
     private String role;
 
     @NumberFormat(pattern = "###,###")
     private int point;
-
-
-    private String password;
 
     @Lob
     private String description;
@@ -60,6 +57,9 @@ public class Member {
 
     @ManyToMany
     private List<Share> joinedShares = new ArrayList<>();
+
+    @ManyToMany
+    private Set<Keyword> keywords = new HashSet<>();
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.password);

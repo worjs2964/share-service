@@ -1,0 +1,35 @@
+
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments.html :: head"></head>
+<link rel="stylesheet" href="/node_modules/@yaireo/tagify/dist/tagify.css">
+<body class="bg-light">
+<nav th:replace="fragments.html :: nav"></nav>
+
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-2">
+                <div th:replace="fragments.html :: settings-profile (currentMenu='keywords')"></div>
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <h2 class="col-12">키워드 등록/삭제</h2>
+                </div>
+                <div class="row col-12 mt-3">
+                    <div class="alert alert-info col" role="alert">
+                        관심있는 공유의 키워드를 입력해주세요. 해당 키워드의 공유가 생성되면 알림을 받을 수 있습니다.
+                    </div>
+                    <div id="whitelist" th:text="${whitelist}" hidden></div>
+                    <input id="keywords" type="text" name="keywords" th:value="${#strings.listJoin(keywords, ',')}"
+                           class="tagify-outside col" aria-describedby="tagHelp"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:replace="fragments.html :: csrf"></script>
+    <script src="/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
+    <script th:replace="fragments.html :: keyword ('/settings/keywords')"></script>
+<body>
+</html>

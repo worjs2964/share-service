@@ -22,7 +22,7 @@
                 <div class="row">
                     <p class="lead col" th:text="*{serviceName}">서비스명</p>
                     <div class="col text-right">
-                        <p>종료일: <span style="font-weight: lighter">[[*{shareFinishAt}]] ([[${share.getDday()}]]일 / 일 평균 [[*{#numbers.formatInteger(dailyRate, 0, 'COMMA')}]]원)</span></p>
+                        <p>종료일: <span style="font-weight: lighter">[[*{shareFinishAt}]] ([[${share.getRamainDays()}]]일 / 일 평균 [[*{#numbers.formatInteger(dailyRate, 0, 'COMMA')}]]원)</span></p>
                     </div>
                 </div>
                 <div class="row">
@@ -52,7 +52,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>[[${share.getDday()}]]일</td>
+                    <td>[[${share.getRamainDays()}]]일</td>
                     <td>[[${#numbers.formatInteger(share.getCost(), 0, 'COMMA')}]]원</td>
                     <td>[[${#numbers.formatInteger(share.getCost()/10, 0, 'COMMA')}]]원</td>
                     <td><span style="font-weight: bold; color: mediumpurple; font-size: x-large">[[${#numbers.formatInteger(share.getTotalCost(), 0, 'COMMA')}]]</span>원</td>

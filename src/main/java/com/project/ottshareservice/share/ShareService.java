@@ -1,11 +1,14 @@
 package com.project.ottshareservice.share;
 
+import com.project.ottshareservice.domain.Keyword;
 import com.project.ottshareservice.domain.Member;
 import com.project.ottshareservice.domain.Share;
 import com.project.ottshareservice.share.form.ShareForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -52,5 +55,13 @@ public class ShareService {
     public Boolean changeRecruiting(Share share, boolean recruiting) {
         share.setRecruiting(recruiting);
         return share.isRecruiting();
+    }
+
+    public void addKeyword(Share share, Keyword keyword) {
+        share.getKeywords().add(keyword);
+    }
+
+    public void removeKeyword(Share share, Keyword keyword) {
+        share.getKeywords().remove(keyword);
     }
 }
