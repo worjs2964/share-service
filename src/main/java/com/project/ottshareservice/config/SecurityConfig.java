@@ -13,7 +13,6 @@ import org.springframework.security.web.access.expression.DefaultWebSecurityExpr
 
 @Configuration
 @EnableWebSecurity
-@EnableAsync
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public SecurityExpressionHandler expressionHandler() {

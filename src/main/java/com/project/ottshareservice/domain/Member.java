@@ -80,7 +80,7 @@ public class Member {
 
     public void completeCheck() {
         this.emailChecked = true;
-        this.role = "CHECKED_USER";
+        this.role = "ROLE_CHECKED_USER";
     }
 
     public void plusPoint(Long point) {

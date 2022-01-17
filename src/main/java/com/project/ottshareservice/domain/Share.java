@@ -53,7 +53,7 @@ public class Share {
 
     private boolean recruiting = false;
 
-    private boolean firstPublic = false;
+    private boolean alreadyNotification = false;
 
     @Column(nullable = false)
     private Long recruitmentCount;
