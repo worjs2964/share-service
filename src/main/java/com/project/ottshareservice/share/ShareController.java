@@ -11,7 +11,7 @@ import com.project.ottshareservice.keyword.KeywordService;
 import com.project.ottshareservice.keyword.form.KeywordForm;
 import com.project.ottshareservice.member.CurrentMember;
 import com.project.ottshareservice.member.validator.ShareEditFormValidator;
-import com.project.ottshareservice.share.form.RecruitingDto;
+import com.project.ottshareservice.share.form.VisibleDto;
 import com.project.ottshareservice.share.form.ShareForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -72,7 +72,7 @@ public class ShareController {
     @GetMapping("/share/{shareId}")
     private String shareView(@CurrentMember Member member, @PathVariable Long shareId, Model model) throws JsonProcessingException {
         Share share = shareRepository.findById(shareId).get();
-        if (!share.isRecruiting() && !share.checkAlreadyJoinMember(member) && !share.isMaster(member)) {
+        if (!share.isVisible() && !share.checkAlreadyJoinMember(member) && !share.isMaster(member)) {
             throw new UrlNotFoundException();
         } else if (share.isMaster(member)) {
             Set<Keyword> tags = share.getKeywords();
@@ -120,7 +120,7 @@ public class ShareController {
     @GetMapping("/share/{shareId}/payment")
     private String paymentView(@CurrentMember Member member, @PathVariable Long shareId, Model model) {
         Share share = shareRepository.findById(shareId).get();
-        if (share.isMaster(member) || !share.isRecruiting() || share.checkAlreadyJoinMember(member)) {
+        if (share.isMaster(member) || !share.isVisible() || share.checkAlreadyJoinMember(member)) {
             throw new UrlNotFoundException();
         }
         model.addAttribute(share);
@@ -139,13 +139,13 @@ public class ShareController {
         return "share/info-view";
     }
 
-    @PostMapping("/share/{shareId}/recruiting")
+    @PostMapping("/share/{shareId}/visible")
     @ResponseBody
-    private Boolean changeRecruiting(@CurrentMember Member member, @PathVariable Long shareId,
-                                     @RequestBody RecruitingDto recruitingDto) {
+    private Boolean changeVisible(@CurrentMember Member member, @PathVariable Long shareId,
+                                     @RequestBody VisibleDto visibleDto) {
         Share share = shareRepository.findById(shareId).get();
         checkMaster(member, share);
-        return shareService.changeRecruiting(share, recruitingDto.isRecruiting());
+        return shareService.changeVisible(share, visibleDto.isVisible());
     }
 
     private void checkMaster(Member member, Share share) {

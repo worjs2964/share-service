@@ -33,7 +33,7 @@ public class PaymentController {
     public Boolean joinShare(@CurrentMember Member member, @RequestBody PaymentDto paymentDto,
                              @PathVariable Long shareId) {
         Share share = shareRepository.findById(shareId).get();
-        if (share.isMaster(member) || share.checkAlreadyJoinMember(member) || !share.isRecruiting() || !share.canJoin()) {
+        if (share.isMaster(member) || share.checkAlreadyJoinMember(member) || !share.isVisible() || !share.canJoin()) {
             paymentCancel(paymentDto.getImpUid());
             return false;
         } else if (!getPaymentPrice(paymentDto.getImpUid()).equals(share.getTotalCost().toString())) {

@@ -25,12 +25,12 @@
                     <input id="keywords" type="text" name="keywords" th:value="${#strings.listJoin(keywords, ',')}"
                            class="tagify-outside" aria-describedby="tagHelp"/>
                 </th:block>
-                <th:block th:each="test : ${share.getKeywords()}" th:if="${!share.isMaster(#authentication.getPrincipal())}">
-                    <svg th:if="${testStat.first}" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                <th:block th:each="keyword : ${share.getKeywords()}" th:if="${!share.isMaster(#authentication.getPrincipal())}">
+                    <svg th:if="${keywordStat.first}" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
                         <path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
                         <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
                     </svg>
-                    <span  class="badge badge-info"  style="font-size: medium" th:text="${test.getKeyword()}"></span>
+                    <span  class="badge badge-info"  style="font-size: medium" th:text="${keyword.getKeyword()}"></span>
                 </th:block>
             </div>
             <div class="col-sm-11">
@@ -45,8 +45,8 @@
                 <div class="row">
                     <p class="lead col" th:text="*{serviceName}">서비스명</p>
                     <div class="custom-control custom-switch col text-right" th:if="${share.isMaster(#authentication.getPrincipal())}">
-                        <input type="checkbox" th:field="*{recruiting}" class="custom-control-input" id="recruiting">
-                        <label class="custom-control-label" for="recruiting"><strong id="recruiting-label"></strong></label>
+                        <input type="checkbox" th:field="*{visible}" class="custom-control-input" id="visible">
+                        <label class="custom-control-label" for="visible"><strong id="visible-label"></strong></label>
                     </div>
                 </div>
                 <div class="row">
@@ -79,18 +79,18 @@
         </div>
         <div class="row mt-5 justify-content-center">
             <div class="col-sm-11 row">
-                <div class="col-sm-2" th:each="user : ${share.getMembers()}">
-                    <svg th:data-jdenticon-value="${user.getNickname()}" th:aria-describedby="${user.getNickname()}" width="100%" class="rounded bg-light border"></svg>
-                    <small th:id="${user.getNickname()}" class="form-text text-muted text-center">
-                        <strong>
-                            [[${user.getNickname()}]]
+                <div class="col-sm-2" th:each="num : ${#numbers.sequence(1, share.getMembers().size())}" th:if="${!share.getMembers().isEmpty()}">
+                    <img src="/images/logo.png" alt="참여중인 멤버" width="100%" class="rounded bg-light border"/>
+                    <small class="form-text text-muted text-center">
+                        <strong style="color: mediumpurple;">
+                            참가중
                         </strong>
                     </small>
                 </div>
 
                 <div class="col-sm-2" th:each="num : ${#numbers.sequence(1, share.recruitmentCount - share.getJoinMemberCount())}" th:if="${share.getJoinMemberCount() != share.recruitmentCount}">
-                    <img src="/images/emptyMember.png" alt="빈멤버" th:aria-describedby="|emptyMember${num}|" width="100%" class="rounded bg-light border" style="filter: brightness(60%);"/>
-                    <small th:id="|emptyMember${num}|" class="form-text text-muted text-center">
+                    <img src="/images/emptyMember.png" alt="빈멤버" width="100%" class="rounded bg-light border" style="filter: brightness(60%);"/>
+                    <small class="form-text text-muted text-center">
                         <strong>
                             아직 모집중!
                         </strong>
@@ -124,10 +124,10 @@
     <th:block th:if="${share.isMaster(#authentication.getPrincipal())}">
         <script th:replace="fragments.html :: csrf"></script>
         <script th:inline="javascript">
-            let recruiting = document.getElementById('recruiting');
-            let label = document.getElementById('recruiting-label');
+            let visible = document.getElementById('visible');
+            let label = document.getElementById('visible-label');
             window.onload = function () {
-                if (recruiting.checked) {
+                if (visible.checked) {
                     label.innerText = "ㅤ공개중";
                     label.color = "blue";
                 } else {
@@ -136,14 +136,14 @@
                 }
             };
 
-            $("#recruiting").click(function(){
+            $("#visible").click(function(){
                 $.ajax({
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     method: "POST",
-                    url: "/share/" + [[${share.id}]] + "/recruiting",
+                    url: "/share/" + [[${share.id}]] + "/visible",
                     data: JSON.stringify({
-                        'recruiting': recruiting.checked
+                        'visible': visible.checked
                     })
                 }).done(function (date) {
                     if (date) {

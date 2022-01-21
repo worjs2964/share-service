@@ -3,7 +3,7 @@ package com.project.ottshareservice.share.form;
 import lombok.Data;
 
 @Data
-public class RecruitingDto {
+public class VisibleDto {
 
-    private boolean recruiting;
+    private boolean visible;
 }

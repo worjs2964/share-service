@@ -62,11 +62,91 @@
                     </div>
 
                     <div class="tab-pane fade" id="v-pills-share" role="tabpanel" aria-labelledby="v-pills-share-tab">
-                        내 공유
+                        <div class="row" id="cardDiv">
+                            <div class="col-md-6 col-lg-4 justify-content-center" th:each="share: ${shares}" th:if="${share.canJoin() || share.checkAlreadyJoinMember(#authentication.getPrincipal()) ||share.isMaster(#authentication.getPrincipal())}">
+                                <a th:href="@{|/share/${share.id}|}" style="color: black; text-decoration: none;">
+                                    <div class="card mb-4 shadow-sm" style="border-radius: 7%;">
+                                        <div class="card-body row">
+                                            <div class="col-12">
+                                                <h4 class="card-title context" th:text="${share.serviceName}"></h4>
+                                                <h6 class="card-subtitle context" style="font-weight: lighter" th:text="${share.title}"></h6>
+                                            </div>
+                                            <div class="col-12 my-2 row">
+                                        <span class="col-2" th:each="num : ${#numbers.sequence(1, share.getMembers().size())}" th:if="${!share.getMembers().isEmpty()}">
+                                            <img class="rounded bg-light border" src="/images/logo.png" alt="참여중인 멤버" width="30px"/>
+                                        </span>
+                                                <span class="col-2" th:each="num : ${#numbers.sequence(1, share.recruitmentCount - share.getJoinMemberCount())}" th:if="${share.getJoinMemberCount() != share.recruitmentCount}">
+                                            <img class="rounded bg-light border" src="/images/emptyMember.png" alt="빈멤버" style="filter: brightness(60%);" width="30px"/>
+                                        </span>
+                                            </div>
+                                            <div class="col-12">
+                                        <span>
+                                            [[${share.shareFinishAt}]] (<span style="font-weight: bold">[[${share.getRamainDays()}]]</span>일)
+                                        </span>
+                                                <span>
+                                            <span style="font-weight: bold;">[[${#numbers.formatInteger(share.getCost(), 0, 'COMMA')}]]</span>원
+                                        </span>
+                                            </div>
+                                            <div class="col-12">
+                                                <th:block th:each="keyword : ${share.getKeywords()}">
+                                            <span  class="badge badge-info"  style="font-size: small">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                                <path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
+                                                <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
+                                                </svg>
+                                                [[${keyword.getKeyword()}]]
+                                            </span>
+                                                </th:block>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="tab-pane fade" id="v-pills-being-share" role="tabpanel" aria-labelledby="v-pills-being-share-tab">
-                        이용중인 공유
+                        <div class="row" id="cardDiv">
+                            <div class="col-md-6 col-lg-4 justify-content-center" th:each="share: ${usedShares}" th:if="${!usedShares.isEmpty()}">
+                                <a th:href="@{|/share/${share.id}|}" style="color: black; text-decoration: none;">
+                                    <div class="card mb-4 shadow-sm" style="border-radius: 7%;">
+                                        <div class="card-body row">
+                                            <div class="col-12">
+                                                <h4 class="card-title context" th:text="${share.serviceName}"></h4>
+                                                <h6 class="card-subtitle context" style="font-weight: lighter" th:text="${share.title}"></h6>
+                                            </div>
+                                            <div class="col-12 my-2 row">
+                                        <span class="col-2" th:each="num : ${#numbers.sequence(1, share.getMembers().size())}" th:if="${!share.getMembers().isEmpty()}">
+                                            <img class="rounded bg-light border" src="/images/logo.png" alt="참여중인 멤버" width="30px"/>
+                                        </span>
+                                                <span class="col-2" th:each="num : ${#numbers.sequence(1, share.recruitmentCount - share.getJoinMemberCount())}" th:if="${share.getJoinMemberCount() != share.recruitmentCount}">
+                                            <img class="rounded bg-light border" src="/images/emptyMember.png" alt="빈멤버" style="filter: brightness(60%);" width="30px"/>
+                                        </span>
+                                            </div>
+                                            <div class="col-12">
+                                        <span>
+                                            [[${share.shareFinishAt}]] (<span style="font-weight: bold">[[${share.getRamainDays()}]]</span>일)
+                                        </span>
+                                                <span>
+                                            <span style="font-weight: bold;">[[${#numbers.formatInteger(share.getCost(), 0, 'COMMA')}]]</span>원
+                                        </span>
+                                            </div>
+                                            <div class="col-12">
+                                                <th:block th:each="keyword : ${share.getKeywords()}">
+                                            <span  class="badge badge-info"  style="font-size: small">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+                                                <path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
+                                                <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
+                                                </svg>
+                                                [[${keyword.getKeyword()}]]
+                                            </span>
+                                                </th:block>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -24,7 +24,7 @@ public class ShareForm {
     private Long id;
 
     @NotBlank(message = "값이 있어야합니다.")
-    @Length(max = 50, message = "50자를 넘을 수 없습니다.")
+    @Length(max = 20, message = "20자를 넘을 수 없습니다.")
     private String title;
 
     @NotBlank(message = "값이 있어야합니다.")
@@ -50,7 +50,7 @@ public class ShareForm {
 
     @NotNull(message = "값이 있어야합니다.")
     @Min(value = 1, message = "모집인원은 최소 한명은 되야합니다.")
-    @Max(value = 12, message = "모집인원은 12명을 넘을 수 없습니다.")
+    @Max(value = 6, message = "모집인원은 6명을 넘을 수 없습니다.")
     private Long recruitmentCount;
 
     public ShareForm(Share share) {

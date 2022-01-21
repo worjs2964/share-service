@@ -6,36 +6,30 @@
     <div class="alert alert-warning text-center" role="alert" th:if="${member != null && !member.emailChecked}">
         서비스를 정상적으로 이용하시려면 <a th:href="@{/check-email}" class="alert-link">이메일 인증</a>을 완료하세요.
     </div>
-    <div class="alert alert-info alert-dismissible text-center" role="alert" th:if="${message}">
-        <span th:text="${message}">메시지</span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
 
     <div class="container">
         <div class="row justify-content-center pt-5">
             <div class="col-11">
-                <h3>새로나온 공유</h3>
+                <h3>[[${type.getDescription()}]]</h3>
             </div>
             <div class="col-11">
                 <hr style="border: solid 1px mediumpurple;"/>
             </div>
             <div class="col-11">
-                <p class="lead text-center" th:if="${shares.size() == 0}">
-                    현재 참여할 수 있는 공유가 없습니다.
+                <p class="lead text-center" th:if="${sharePage.getTotalElements() == 0}">
+                    <mark th:text="${type}" style="font-weight: bold"></mark>에 해당하는 공유가 없습니다.
                 </p>
                 <div class="row" id="cardDiv">
-                    <div class="col-md-6 col-lg-3 justify-content-center" th:each="share: ${shares}">
-                        <a th:href="@{|/share/${share.id}|}" style="color: black; text-decoration: none;">
-                            <div class="card mb-4 shadow-sm" style="border-radius: 7%;">
-                                <div class="card-body row">
+                    <div class="col-md-6 col-lg-3 justify-content-center" th:each="share: ${sharePage}">
+                        <div class="card mb-4 shadow-sm" style="border-radius: 7%;">
+                            <div class="card-body row">
+                                <a th:href="@{|/share/${share.id}|}" style="color: black; text-decoration: none;">
                                     <div class="col-12">
-                                        <h4 class="card-title context" th:text="${share.serviceName}"></h4>
-                                        <h6 class="card-subtitle context" style="font-weight: lighter" th:text="${share.title}"></h6>
+                                        <h4 class="card-title" th:text="${share.serviceName}"></h4>
+                                        <h6 class="card-subtitle" style="font-weight: lighter" th:text="${share.title}"></h6>
                                     </div>
                                     <div class="col-12 my-2 row">
-                                        <span class="col-2" th:each="num : ${#numbers.sequence(1, share.getMembers().size())}" th:if="${!share.getMembers().isEmpty()}">
+                                        <span class="col-2" th:each="num : ${share.getMembers().size()}" th:if="${!share.getMembers().isEmpty()}">
                                             <img class="rounded bg-light border" src="/images/logo.png" alt="참여중인 멤버" width="30px"/>
                                         </span>
                                         <span class="col-2" th:each="num : ${#numbers.sequence(1, share.recruitmentCount - share.getJoinMemberCount())}" th:if="${share.getJoinMemberCount() != share.recruitmentCount}">
@@ -61,10 +55,36 @@
                                             </span>
                                         </th:block>
                                     </div>
-                                </div>
+                                </a>
                             </div>
-                        </a>
+                        </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center" th:if="${sharePage.hasPrevious() || sharePage.hasNext()}" >
+                <div class="col-sm-11">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" th:classappend="${!sharePage.hasPrevious()}? disabled">
+                                <a th:href="@{'/search/'+${#strings.toLowerCase(type)}+'?desc&page=' + ${sharePage.getNumber() - 1}}"
+                                   class="page-link" tabindex="-1" aria-disabled="true">
+                                    Previous
+                                </a>
+                            </li>
+                            <li class="page-item" th:classappend="${i == sharePage.getNumber()}? active"
+                                th:each="i: ${#numbers.sequence(0, sharePage.getTotalPages() - 1)}">
+                                <a th:href="@{'/search/'+${#strings.toLowerCase(type)}+'?desc&page=' + ${i}}"
+                                   class="page-link" href="#" th:text="${i + 1}">1</a>
+                            </li>
+                            <li class="page-item" th:classappend="${!sharePage.hasNext()}? disabled">
+                                <a th:href="@{'/search/'+${#strings.toLowerCase(type)}+'?desc&page=' + ${sharePage.getNumber() + 1}}"
+                                   class="page-link">
+                                    Next
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>

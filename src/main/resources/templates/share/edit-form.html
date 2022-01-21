@@ -61,8 +61,8 @@
                     <div class="form-group col-sm-3">
                         <label for="recruitmentCount">모집 인원</label>
                         <select id="recruitmentCount" th:field="*{recruitmentCount}" class="form-control">
-                            <option th:if="${!share.getMembers().isEmpty()}" th:each="num : ${#numbers.sequence(share.getJoinMemberCount(),12)}" th:value="${num}">[[${num}]]</option>
-                            <option th:if="${share.getMembers().isEmpty()}" th:each="num : ${#numbers.sequence(1,12)}" th:value="${num}">[[${num}]]</option>
+                            <option th:if="${!share.getMembers().isEmpty()}" th:each="num : ${#numbers.sequence(share.getJoinMemberCount(),6)}" th:value="${num}">[[${num}]]</option>
+                            <option th:if="${share.getMembers().isEmpty()}" th:each="num : ${#numbers.sequence(1,6)}" th:value="${num}">[[${num}]]</option>
                         </select>
                         <small class="form-text text-danger" th:if="${#fields.hasErrors('recruitmentCount')}" th:errors="*{recruitmentCount}">recruitmentCount Error</small>
                     </div>

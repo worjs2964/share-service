@@ -16,31 +16,40 @@
         .container{
             max-width: 100%;
         }
+        body{
+            padding-top: 70px;
+        }
+        .purple-color{
+            color: mediumpurple;
+        }
     </style>
 </head>
-<nav class="navbar navbar-expand-sm" style="border-bottom: mediumpurple 1px solid; background-color: white; height: 70px;" th:fragment="nav">
+
+<nav class="navbar navbar-expand-sm" style="border-bottom: mediumpurple 1px solid; position: fixed; top: 0; width: 100%; background-color: white; height: 70px; z-index: 1;" th:fragment="nav">
     <a class="navbar-brand" href="/" th:href="@{/}">
         <img src="/images/logo.png" width="60" height="60">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+    <form th:action="@{/search/share}" class="form-inline" method="get">
+        <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="공유 찾기" aria-label="Search"/>
+    </form>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <form th:action="@{/search/ott}" class="form-inline" method="get">
-                    <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="OTT 찾기" aria-label="Search" />
-                </form>
-            </li>
+            <li class="nav-item"><a href="/search/video" class="nav-link purple-color">영상</a></li>
+            <li class="nav-item"><a href="/search/music" class="nav-link purple-color">음악</a></li>
+            <li class="nav-item"><a href="/search/game" class="nav-link purple-color">게임</a></li>
+            <li class="nav-item"><a href="/search/etc" class="nav-link purple-color">기타</a></li>
         </ul>
 
-        <ul class="navbar-nav justify-content-end">
+        <ul class="navbar-nav">
             <li class="nav-item" sec:authorize="!isAuthenticated()">
-                <a class="nav-link" th:href="@{/login}">로그인</a>
+                <a class="nav-link purple-color" th:href="@{/login}">로그인</a>
             </li>
             <li class="nav-item" sec:authorize="!isAuthenticated()">
-                <a class="nav-link" th:href="@{/sign-up}">회원가입</a>
+                <a class="nav-link purple-color" th:href="@{/sign-up}">회원가입</a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()" th:if="${countNotifications == 0}">
                 <a class="nav-link" th:href="@{/notifications}">
@@ -68,7 +77,7 @@
                 </a>
             </li>
             <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle purple-color" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     <svg th:data-jdenticon-value="${#authentication.name}" width="24" height="24" class="rounded bg-light"></svg>
                 </a>

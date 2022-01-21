@@ -51,7 +51,9 @@ public class Share {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate shareFinishAt;
 
-    private boolean recruiting = false;
+    private boolean visible = false;
+
+    private boolean recruiting = true;
 
     private boolean alreadyNotification = false;
 
@@ -107,7 +109,7 @@ public class Share {
     }
 
     public boolean canJoin() {
-        return recruitmentCount > getJoinMemberCount() && shareFinishAt.isAfter(LocalDate.now().minusDays(1));
+        return recruitmentCount > getJoinMemberCount() && shareFinishAt.isAfter(LocalDate.now().minusDays(1)) && visible;
     }
 
     public void join(Member member) {

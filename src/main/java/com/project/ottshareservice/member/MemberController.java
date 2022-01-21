@@ -1,9 +1,10 @@
 package com.project.ottshareservice.member;
 
 import com.project.ottshareservice.domain.Member;
+import com.project.ottshareservice.domain.Share;
 import com.project.ottshareservice.member.form.SignUpForm;
-import com.project.ottshareservice.member.validator.ShareEditFormValidator;
 import com.project.ottshareservice.member.validator.SignUpFormValidator;
+import com.project.ottshareservice.share.ShareRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +15,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
     private final MemberRepository memberRepository;
+    private final ShareRepository shareRepository;
     private final SignUpFormValidator signUpFormValidator;
 
     @GetMapping("/sign-up")
@@ -78,6 +82,13 @@ public class MemberController {
         if (member == null) {
             throw new IllegalArgumentException(nickname + "에 해당하는 사용자가 없습니다.");
         }
+        if (member.equals(currentMember)) {
+            List<Share> usedShares = shareRepository.findByMembersIn(member);
+            model.addAttribute("usedShares", usedShares);
+        }
+
+        List<Share> shares = shareRepository.findByMaster(member);
+        model.addAttribute("shares", shares);
 
         model.addAttribute("member", member);
         model.addAttribute("equalsMember", member.equals(currentMember));

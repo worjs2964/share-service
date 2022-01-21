@@ -12,8 +12,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Set;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -34,6 +32,7 @@ public class ShareService {
                 .shareEmail(shareForm.getShareEmail())
                 .sharePassword(shareForm.getSharePassword())
                 .recruitmentCount(shareForm.getRecruitmentCount())
+                .recruiting(true)
                 .dailyRate(shareForm.getDailyRate())
                 .contentType(shareForm.getContentType())
                 .description(shareForm.getDescription())
@@ -45,6 +44,13 @@ public class ShareService {
         if (isChangeAccountInfo(share, shareForm)) {
             applicationEventPublisher.publishEvent(new ShareUpdateEvent(share));
         }
+
+        if (shareForm.getRecruitmentCount() > share.getJoinMemberCount()) {
+            share.setRecruiting(true);
+        } else {
+            share.setRecruiting(false);
+        }
+
         share.setTitle(shareForm.getTitle());
         share.setServiceName(shareForm.getServiceName());
         share.setShareEmail(shareForm.getShareEmail());
@@ -63,16 +69,19 @@ public class ShareService {
 
     public void join(Share share, Member member) {
         share.join(member);
+        if (share.getJoinMemberCount() >= share.getRecruitmentCount()) {
+            share.setRecruiting(false);
+        }
         applicationEventPublisher.publishEvent(new ShareJoinEvent(share, member));
     }
 
-    public Boolean changeRecruiting(Share share, boolean recruiting) {
-        if (!share.isAlreadyNotification() && recruiting == true) {
+    public Boolean changeVisible(Share share, boolean visible) {
+        if (!share.isAlreadyNotification() && visible == true) {
             share.setAlreadyNotification(true);
             applicationEventPublisher.publishEvent(new ShareCreateEvent(share));
         }
-        share.setRecruiting(recruiting);
-        return share.isRecruiting();
+        share.setVisible(visible);
+        return share.isVisible();
     }
 
     public void addKeyword(Share share, Keyword keyword) {
