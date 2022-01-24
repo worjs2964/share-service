@@ -14,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class HomeController {
 
     @GetMapping("/search/share")
     public String keywordSearch(String keyword, Model model,
-                                @PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+                                @PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Share> sharePage = shareRepository.findByKeyword(keyword, pageable);
         model.addAttribute("sharePage", sharePage);
         model.addAttribute("keyword", keyword);
@@ -48,7 +49,7 @@ public class HomeController {
     }
 
     @GetMapping("/search/video")
-    public String videoSearch(Model model, @PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+    public String videoSearch(Model model, @PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Share> sharePage = shareRepository.findByType(ContentType.VIDEO, pageable);
         model.addAttribute("sharePage", sharePage);
         model.addAttribute("type", ContentType.VIDEO);
@@ -56,7 +57,7 @@ public class HomeController {
     }
 
     @GetMapping("/search/music")
-    public String musicSearch(Model model, @PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+    public String musicSearch(Model model, @PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Share> sharePage = shareRepository.findByType(ContentType.MUSIC, pageable);
         model.addAttribute("sharePage", sharePage);
         model.addAttribute("type", ContentType.MUSIC);
@@ -64,7 +65,7 @@ public class HomeController {
     }
 
     @GetMapping("/search/game")
-    public String gameSearch(Model model, @PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+    public String gameSearch(Model model, @PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Share> sharePage = shareRepository.findByType(ContentType.GAME, pageable);
         model.addAttribute("sharePage", sharePage);
         model.addAttribute("type", ContentType.GAME);
@@ -72,10 +73,11 @@ public class HomeController {
     }
 
     @GetMapping("/search/etc")
-    public String etcSearch(Model model, @PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC)Pageable pageable) {
+    public String etcSearch(Model model, @PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Share> sharePage = shareRepository.findByType(ContentType.ETC, pageable);
         model.addAttribute("sharePage", sharePage);
         model.addAttribute("type", ContentType.ETC);
         return "search/share-type";
     }
+
 }

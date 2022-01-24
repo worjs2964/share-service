@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<nav th:replace="fragments.html :: nav"></nav>
+
+<div class="container">
+    <div class="row pt-5 justify-content-center">
+        <div class="jumbotron">
+            <h1 class="display-4">ERROR</h1>
+            <p class="lead">권한이 없거나 잘못된 접근입니다.</p>
+            <hr class="my-4">
+            <p>뒤로가기 또는 밑에 버튼을 눌러 홈으로 이동하시길 바랍니다.</p>
+            <a class="btn btn-primary btn-lg" href="/" role="button">홈으로</a>
+        </div>
+    </div>
+</div>
+
+<body>
+</html>

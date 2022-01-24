@@ -102,8 +102,8 @@
             <div class="col-sm-11 rounded p-3" th:utext="*{description}" style="background-color: #F7F7F7; border: solid 1px lightgray;"></div>
         </div>
         <div class="row mb-5 justify-content-center ">
-            <a class="col-sm-3 btn btn-lg m-1" style="background-color: lightgray; color: white;">
-                목록
+            <a class="col-sm-3 btn btn-lg m-1" style="background-color: lightgray; color: white;" href="/">
+                홈으로가기
             </a>
             <a class="col-sm-3 btn btn-lg m-1" style="background-color: mediumpurple; color: white;"
                th:if="${share.canJoin() && !share.checkAlreadyJoinMember(#authentication.getPrincipal()) && !share.isMaster(#authentication.getPrincipal())}"
