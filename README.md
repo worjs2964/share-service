@@ -45,18 +45,22 @@ link: [share-service 링크](http://52.78.87.137:8080/)
 - 홈 화면
    - 최근에 생성된 가입할 수 있는 공유 최대 12개 조회 가능
    - ![image](https://user-images.githubusercontent.com/80329358/150930604-8dab48ab-c97d-4a38-a10c-a52994a7a574.png)   
+   
 - 회원가입
    - 서버에서 아이디, 닉네임 중복 확인 및 유효성 검사 
    - 비밀번호는 스프링 시큐리티의 DelegatingPasswordEncoder로 인코딩 후 저장
-   - ![image](https://user-images.githubusercontent.com/80329358/150930961-155770ec-82df-4788-a435-6126449b7b9a.png)   
+   - ![image](https://user-images.githubusercontent.com/80329358/150930961-155770ec-82df-4788-a435-6126449b7b9a.png)  
+    
 - 로그인
    - 로그인 시 UserDetailsService의 loadUserByUsername를 오버라이딩 하여 DB에 저장된 값을 UserDetails 객체로 반환   
+   
 - 프로필
    - 프로필 확인 시 해당 아이디의 주인이면 이용중인 공유 목록, 프로필 수정 등을 보여주고 주인이 아니면 기본 정보만 보여줌
    - ![image](https://user-images.githubusercontent.com/80329358/150932781-aac7a9e1-8db7-4813-a492-1afed0dd4914.png)
    - 프로필 수정에서 프로필 정보, 패스워드, 알림 등 수정 가능
    - tagify 라이브러리를 사용하여 태그 수정, 삭제 가능(비동기 처리)
    - ![image](https://user-images.githubusercontent.com/80329358/150933255-6c584dbd-dd59-4380-98c1-28a08c30f9f6.png)   
+   
 - 공유
    - 시큐리티로 공유 생성은 인증된 사용자만 접근 가능하도록 인가
    - 텍스트 입력, 날짜 선택에 라이브러리 적용
