@@ -3,8 +3,12 @@
 share-service는 자기가 구독 중인 서비스를 공유하거나, 다른 사람이 공유하는 서비스에 참여하여 저렴하게 이용할 수 있도록 만든 웹 사이트입니다.   
 - 실제 서비스가 아닌 프로젝트를 위해 만든 사이트로 결제된 금액은 자정 전에 자동으로 환불됩니다.
 
+링크: [share-service](http://52.78.87.137:8080/)
+- 테스트용 아이디
+  - 인증된 사용자 ID: checked@share-service.com password: 123123123
+  - 인증되지 않은 사용자 ID: unchecked@share-service.com password: 123123123
 # 배포 환경
-link: [share-service 링크](http://52.78.87.137:8080/)
+
 - aws ec2 (리눅스)
 - aws rds (mysql)
 

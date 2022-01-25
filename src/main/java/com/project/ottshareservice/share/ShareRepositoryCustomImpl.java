@@ -29,6 +29,7 @@ public class ShareRepositoryCustomImpl extends QuerydslRepositorySupport impleme
                         .or(share.keywords.any().keyword.containsIgnoreCase(keyword))
                         .and(share.shareFinishAt.after(LocalDate.now().minusDays(1)))
                         .and(share.recruiting.isTrue()))
+                .orderBy(share.id.desc())
                 .leftJoin(share.keywords, QKeyword.keyword1).fetchJoin()
                 .distinct();
 
@@ -44,6 +45,7 @@ public class ShareRepositoryCustomImpl extends QuerydslRepositorySupport impleme
                         .and(share.contentType.eq(type))
                         .and(share.shareFinishAt.after(LocalDate.now().minusDays(1)))
                         .and(share.recruiting.isTrue()))
+                .orderBy(share.id.desc())
                 .leftJoin(share.keywords, QKeyword.keyword1).fetchJoin()
                 .distinct()
                 .offset(pageable.getOffset())
@@ -59,6 +61,7 @@ public class ShareRepositoryCustomImpl extends QuerydslRepositorySupport impleme
         QueryResults<Share> fetchResults = from(share).where(share.visible.isTrue()
                         .and(share.shareFinishAt.after(LocalDate.now().minusDays(1)))
                         .and(share.recruiting.isTrue()))
+                .orderBy(share.id.desc())
                 .leftJoin(share.keywords, QKeyword.keyword1).fetchJoin()
                 .distinct()
                 .limit(12)
@@ -71,6 +74,7 @@ public class ShareRepositoryCustomImpl extends QuerydslRepositorySupport impleme
         QShare share = QShare.share;
 
         QueryResults<Share> fetchResults = from(share).where(share.members.contains(member))
+                .orderBy(share.id.desc())
                 .leftJoin(share.members, QMember.member).fetchJoin()
                 .leftJoin(share.keywords, QKeyword.keyword1).fetchJoin()
                 .distinct()
