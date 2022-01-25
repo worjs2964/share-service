@@ -29,10 +29,10 @@
                                         <h6 class="card-subtitle" style="font-weight: lighter" th:text="${share.title}"></h6>
                                     </div>
                                     <div class="col-12 my-2 row">
-                                        <span class="col-2" th:each="num : ${share.getMembers().size()}" th:if="${!share.getMembers().isEmpty()}">
+                                        <span class="col-2" th:each="num : ${#numbers.sequence(1, share.getMembers().size())}" th:if="${!share.getMembers().isEmpty()}">
                                             <img class="rounded bg-light border" src="/images/logo.png" alt="참여중인 멤버" width="30px"/>
                                         </span>
-                                        <span class="col-2" th:each="num : ${#numbers.sequence(1, share.recruitmentCount - share.getJoinMemberCount())}" th:if="${share.getJoinMemberCount() != share.recruitmentCount}">
+                                        <span class="col-2" th:each="num : ${#numbers.sequence(1, share.recruitmentCount - share.getMembers().size())}" th:if="${share.getJoinMemberCount() != share.recruitmentCount}">
                                             <img class="rounded bg-light border" src="/images/emptyMember.png" alt="빈멤버" style="filter: brightness(60%);" width="30px"/>
                                         </span>
                                     </div>
