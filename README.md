@@ -42,5 +42,8 @@ link: [share-service 링크](http://52.78.87.137:8080/)
    - 서버 검증 단계 추가
 
 # 웹 화면 
-![image](https://user-images.githubusercontent.com/80329358/150930330-bf18f527-dc3d-4400-b35f-016a3ee742ef.png) 테스트 
+- 홈 화면
+   - 최근에 생성된 가입할 수 있는 공유 최대 12개 조회 가능
+   - ![image](https://user-images.githubusercontent.com/80329358/150930604-8dab48ab-c97d-4a38-a10c-a52994a7a574.png)
+
 
