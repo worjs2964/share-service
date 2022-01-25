@@ -56,7 +56,8 @@ link: [share-service 링크](http://52.78.87.137:8080/)
    
 - 프로필
    - 프로필 확인 시 해당 아이디의 주인이면 이용중인 공유 목록, 프로필 수정 등을 보여주고 주인이 아니면 기본 정보만 보여줌
-   - ![image](https://user-images.githubusercontent.com/80329358/150932781-aac7a9e1-8db7-4813-a492-1afed0dd4914.png)
+   - ![image](https://user-images.githubusercontent.com/80329358/150932781-aac7a9e1-8db7-4813-a492-1afed0dd4914.png)   
+   
    - 프로필 수정에서 프로필 정보, 패스워드, 알림 등 수정 가능
    - tagify 라이브러리를 사용하여 태그 수정, 삭제 가능(비동기 처리)
    - ![image](https://user-images.githubusercontent.com/80329358/150933255-6c584dbd-dd59-4380-98c1-28a08c30f9f6.png)   
@@ -64,6 +65,24 @@ link: [share-service 링크](http://52.78.87.137:8080/)
 - 공유
    - 시큐리티로 공유 생성은 인증된 사용자만 접근 가능하도록 인가
    - 텍스트 입력, 날짜 선택에 라이브러리 적용
-   - ![image](https://user-images.githubusercontent.com/80329358/150933611-a232fe93-ca1d-4f31-a529-38b56194206f.png)
+   - ![image](https://user-images.githubusercontent.com/80329358/150933611-a232fe93-ca1d-4f31-a529-38b56194206f.png)   
+   
+   - (공유 주인 화면)
+   - 태그 추가/삭제, 공유 공개/비공개, 수정 가능
+   - 수정 시 참여한 인원이 있다면 인원, 일정 변경등에 제약
+   - ![image](https://user-images.githubusercontent.com/80329358/150935319-a455af6d-8f16-4624-b0ec-f2d6361c7853.png)   
+   
+   - (참여자 화면)
+   - 공유 참가시 알림, 공유 계정 정보 확인 가능
+   - ![image](https://user-images.githubusercontent.com/80329358/150935552-3990d6b1-d2f2-4ec8-ad5e-714905d0c375.png)
+   - ![image](https://user-images.githubusercontent.com/80329358/150935591-1878001b-3ed4-4b9a-904d-2c8b3dc07ed4.png)   
+
+- 결제
+   - 아임포트 API 사용, 결제 시 서버에서 검증 후 쉐어에 참여 또는 환불 진행
+   - ![image](https://user-images.githubusercontent.com/80329358/150936007-1c2f6a78-ad51-4102-b3d1-9ea0a19c7ba6.png)   
+
+- 검색
+   - 
+
 
 
