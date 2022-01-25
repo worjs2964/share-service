@@ -56,9 +56,8 @@ link: [share-service 링크](http://52.78.87.137:8080/)
    - ![image](https://user-images.githubusercontent.com/80329358/150944184-a933a426-ef22-473a-a8d9-848c09d94c46.png)   
    
 - 프로필
-   - 프로필 확인 시 본인이면 사용 중인 공유, 수정 버튼 등 추가적인 정보 표시
-   - ![image](https://user-images.githubusercontent.com/80329358/150932781-aac7a9e1-8db7-4813-a492-1afed0dd4914.png)   
-   
+   - 프로필 확인 시 본인이면 이용중인 공유, 수정 버튼 등 추가적인 정보 표시
+   - ![image](https://user-images.githubusercontent.com/80329358/150932781-aac7a9e1-8db7-4813-a492-1afed0dd4914.png)
    - 프로필 정보, 패스워드, 알림 등 수정 가능
    - tagify 라이브러리를 사용하여 태그 수정/삭제 가능(비동기 처리)
    - ![image](https://user-images.githubusercontent.com/80329358/150933255-6c584dbd-dd59-4380-98c1-28a08c30f9f6.png)   
