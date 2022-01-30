@@ -1,12 +1,8 @@
 package com.project.ottshareservice.share.event;
 
-import com.project.ottshareservice.domain.Member;
-import com.project.ottshareservice.domain.Notification;
-import com.project.ottshareservice.domain.NotificationType;
-import com.project.ottshareservice.domain.Share;
+import com.project.ottshareservice.domain.*;
 import com.project.ottshareservice.mail.EmailMessage;
 import com.project.ottshareservice.mail.MailSender;
-import com.project.ottshareservice.member.MemberPredicates;
 import com.project.ottshareservice.member.MemberRepository;
 import com.project.ottshareservice.notification.NotificationRepository;
 import com.project.ottshareservice.share.ShareRepository;
@@ -20,6 +16,8 @@ import org.thymeleaf.context.Context;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.project.ottshareservice.domain.QMember.member;
 
 @Async
 @Component
@@ -36,7 +34,7 @@ public class ShareEventListener {
     @EventListener
     public void publishShare(ShareCreateEvent shareCreateEvent) {
         Share share = shareRepository.findWithKeywordById(shareCreateEvent.getShare().getId());
-        Iterable<Member> members = memberRepository.findAll(MemberPredicates.findByKeywords(share.getKeywords()));
+        Iterable<Member> members = memberRepository.findAll(member.keywords.any().in(share.getKeywords()));
         members.forEach(member -> {
             if (member.isKeywordNotificationByEmail()) {
                 sendNotificationByMail(member, "쉐어 서비스(키워드 알림)", share.getTitle() + "생성",
