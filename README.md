@@ -5,8 +5,8 @@ share-service는 자기가 구독 중인 서비스를 공유하거나, 다른 �
 
 링크: [share-service](http://52.78.87.137:8080/)
 - 테스트용 아이디
-  - 인증된 사용자 ID: checked@share-service.com password: 123123123
-  - 인증되지 않은 사용자 ID: unchecked@share-service.com password: 123123123
+  - 인증된 사용자 ID: checked@share-service.com    password: 123123123
+  - 인증되지 않은 사용자 ID: unchecked@share-service.com     password: 123123123
 # 배포 환경
 
 - aws ec2 (리눅스)
@@ -42,7 +42,7 @@ share-service는 자기가 구독 중인 서비스를 공유하거나, 다른 �
    - 키워드 검색 기능
    - 검색 결과가 12개가 넘을 시 페이징 기능
 - 결제
-   - 아임포트 API 사용
+   - 아임포트 API 사용(PC에서 결제 가능)
    - 서버 검증 단계 추가
 
 # 웹 화면 
