@@ -38,7 +38,6 @@ public class Member {
 
     private String role;
 
-    @NumberFormat(pattern = "###,###")
     private int point;
 
     @Lob
