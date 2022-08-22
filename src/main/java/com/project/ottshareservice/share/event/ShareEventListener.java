@@ -73,7 +73,7 @@ public class ShareEventListener {
     }
 
     private void sendJoinInfoToMember(Member member, Share share) {
-        if (member.isNotificationByWeb()) {
+        if (member.isNotificationByEmail()) {
             sendNotificationByMail(member, "쉐어 서비스(공유 참여 알림)", share.getTitle() + "에 가입하였습니다.",
                     "공유 계정: " + share.getShareEmail() + ", 비밀번호: " + share.getSharePassword(), "share/" + share.getId());
         }
@@ -84,7 +84,7 @@ public class ShareEventListener {
     }
 
     private void sendJoinInfoToMaster(Member master, Share share) {
-        if (master.isNotificationByWeb()) {
+        if (master.isNotificationByEmail()) {
             sendNotificationByMail(master, "쉐어 서비스(공유 참여 알림)", share.getTitle() + "에 회원이 참여하였습니다.",
                     "해당 공유에 회원이 참여하였습니다. 링크를 눌러 확인해보세요.", "share/" + share.getId());
         }
