@@ -12,7 +12,7 @@
             </div>
             <div class="col-8">
                 <h1 class="display-4" th:text="${member.nickname}">닉네임</h1>
-                <p class="lead" th:if="${!#strings.isEmpty(member.description)}" th:text="${member.description}">자기소개</p>
+                <p class="lead" th:if="${!#strings.isEmpty(member.description)}" th:utext="${member.description}">자기소개</p>
                 <p class="lead" th:if="${#strings.isEmpty(member.description) && equalsMember}">
                     <a th:href="@{/settings/profile}">
                         자기소개를 추가해주세요.
@@ -153,5 +153,5 @@
         </div>
     </div>
 
-<body>
+</body>
 </html>

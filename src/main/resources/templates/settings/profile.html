@@ -5,37 +5,49 @@
 <body class="bg-light">
 <nav th:replace="fragments.html :: nav"></nav>
 
-<div class="container">
-    <div class="row mt-5 justify-content-center">
-        <div class="col-2">
-            <div th:replace="fragments.html :: settings-profile (currentMenu='profile')"></div>
-        </div>
-        <div class="col-8">
-            <div th:replace="fragments.html :: message"></div>
-            <div class="row">
-                <h2 class="col-12" th:text="${member.nickname}">닉네임</h2>
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-2">
+                <div th:replace="fragments.html :: settings-profile (currentMenu='profile')"></div>
             </div>
-            <div class="row mt-3">
-                <form class="col" th:action="@{/settings/profile}" th:object="${memberUpdateForm}" method="post">
-                    <div class="form-group">
-                        <label for="description">회원소개</label>
-                        <textarea id="description" type="text" th:field="*{description}" class="form-control" rows="7"
-                                  placeholder="구매자들에게 보여줄 소개를 적어주세요." aria-describedby="descriptionHelp">
-                        </textarea>
-                        <small id="descriptionHelp" class="form-text text-muted">
-                            구매자들에게 보여줄 소개를 적어주세요.
-                        </small>
-                    </div>
+            <div class="col-8">
+                <div th:replace="fragments.html :: message"></div>
+                <div class="row">
+                    <h2 class="col-12" th:text="${member.nickname}">닉네임</h2>
+                </div>
+                <div class="row mt-3">
+                    <form class="col" th:action="@{/settings/profile}" th:object="${memberUpdateForm}" method="post">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="description">회원소개</label>
+                                <textarea id="description" type="textarea" th:field="*{description}" class="form-control"
+                                          placeholder="구매자들에게 보여줄 소개를 적어주세요." aria-describedby="descriptionHelp"></textarea>
+                                <small id="descriptionHelp" class="form-text text-muted">
+                                    구매자들에게 보여줄 소개를 적어주세요.
+                                </small>
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-block" type="submit"
-                                aria-describedby="submitHelp">수정하기</button>
-                    </div>
-                </form>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" type="submit"
+                                    aria-describedby="submitHelp">수정하기</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<body>
+    <script src="/node_modules/summernote/dist/summernote-bs4.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            $('#description').summernote({
+                placeholder: '공유에 대한 내용, 규칙, 주의사항등을 적어주세요.',
+                tabsize: 0.6,
+                height: 200
+            });
+        });
+    </script>
+
+</body>
 </html>
