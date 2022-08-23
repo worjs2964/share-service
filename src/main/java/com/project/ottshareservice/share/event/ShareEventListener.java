@@ -7,6 +7,7 @@ import com.project.ottshareservice.member.MemberRepository;
 import com.project.ottshareservice.notification.NotificationRepository;
 import com.project.ottshareservice.share.ShareRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,9 @@ public class ShareEventListener {
     private final TemplateEngine templateEngine;
     private final NotificationRepository notificationRepository;
 
+    @Value("${share-service.url}")
+    private String url;
+
     @EventListener
     public void publishShare(ShareCreateEvent shareCreateEvent) {
         Share share = shareRepository.findWithKeywordById(shareCreateEvent.getShare().getId());
@@ -38,11 +42,11 @@ public class ShareEventListener {
         members.forEach(member -> {
             if (member.isKeywordNotificationByEmail()) {
                 sendNotificationByMail(member, "쉐어 서비스(키워드 알림)", share.getTitle() + "생성",
-                        "키워드에 해당하는 공유가 생성되었습니다.\n아래 링크를 눌러 확인해보세요.", "share/" + share.getId());
+                        "키워드에 해당하는 공유가 생성되었습니다.\n아래 링크를 눌러 확인해보세요.", url + "share/" + share.getId());
             }
 
             if (member.isKeywordNotificationByWeb()) {
-                sendNotificationByWeb(member, share, "키워드 등록한 공유가 개설되었습니다.", NotificationType.CREATED, "/share/" + share.getId());
+                sendNotificationByWeb(member, share, "키워드 등록한 공유가 개설되었습니다.", NotificationType.CREATED, url + "share/" + share.getId());
             }
         });
     }
@@ -54,11 +58,12 @@ public class ShareEventListener {
         members.forEach(member -> {
             if (member.isNotificationByEmail()) {
                 sendNotificationByMail(member, "쉐어 서비스(공유 업데이트 알림)", share.getTitle() + "의 내용이 수정되었습니다.",
-                        "해당 공유의 정보가 수정되었습니다.\n아래 링크를 눌러 확인해보세요.", "share/" + share.getId() +"/info");
+                        "해당 공유의 정보가 수정되었습니다.\n아래 링크를 눌러 확인해보세요.", url + "share/" + share.getId() +"/info");
             }
 
             if (member.isNotificationByWeb()) {
-                sendNotificationByWeb(member, share, "가입하신 공유의 계정 정보가 변경되었습니다.", NotificationType.JOINED, "/share/" + share.getId() + "/info");
+                sendNotificationByWeb(member, share, "가입하신 공유의 계정 정보가 변경되었습니다.", NotificationType.JOINED,
+                        url + "share/" + share.getId() + "/info");
             }
         });
     }
@@ -75,22 +80,22 @@ public class ShareEventListener {
     private void sendJoinInfoToMember(Member member, Share share) {
         if (member.isNotificationByEmail()) {
             sendNotificationByMail(member, "쉐어 서비스(공유 참여 알림)", share.getTitle() + "에 가입하였습니다.",
-                    "공유 계정: " + share.getShareEmail() + ", 비밀번호: " + share.getSharePassword(), "share/" + share.getId());
+                    "공유 계정: " + share.getShareEmail() + ", 비밀번호: " + share.getSharePassword(), url + "share/" + share.getId());
         }
 
         if (member.isNotificationByWeb()) {
-            sendNotificationByWeb(member, share, "새로운 공유에 참여하셨습니다.", NotificationType.JOINED, "/share/" + share.getId());
+            sendNotificationByWeb(member, share, "새로운 공유에 참여하셨습니다.", NotificationType.JOINED,  url + "share/" + share.getId());
         }
     }
 
     private void sendJoinInfoToMaster(Member master, Share share) {
         if (master.isNotificationByEmail()) {
             sendNotificationByMail(master, "쉐어 서비스(공유 참여 알림)", share.getTitle() + "에 회원이 참여하였습니다.",
-                    "해당 공유에 회원이 참여하였습니다. 링크를 눌러 확인해보세요.", "share/" + share.getId());
+                    "해당 공유에 회원이 참여하였습니다. 링크를 눌러 확인해보세요.", url + "share/" + share.getId());
         }
 
         if (master.isNotificationByWeb()) {
-            sendNotificationByWeb(master, share, "새로운 회원이 공유에 참여하였습니다.", NotificationType.JOINED, "/share/" + share.getId());
+            sendNotificationByWeb(master, share, "새로운 회원이 공유에 참여하였습니다.", NotificationType.JOINED, url + "share/" + share.getId());
         }
     }
 

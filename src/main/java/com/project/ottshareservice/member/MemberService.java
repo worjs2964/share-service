@@ -9,6 +9,7 @@ import com.project.ottshareservice.settings.form.MemberUpdateForm;
 import com.project.ottshareservice.settings.form.NicknameForm;
 import com.project.ottshareservice.settings.form.NotificationsForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,6 +35,8 @@ public class MemberService implements UserDetailsService {
     private final TemplateEngine templateEngine;
     private final MailSender mailSender;
 
+    @Value("${share-service.url}")
+    private String url;
     @Override
     public UserDetails loadUserByUsername(String useremail) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(useremail);
@@ -73,7 +76,7 @@ public class MemberService implements UserDetailsService {
     private void sendEmailCheckToken(Member member) {
         Context context = new Context();
         context.setVariable("nickname", member.getNickname());
-        context.setVariable("link", "check-email-token?token=" + member.getEmailCheckToken() + "&email=" + member.getEmail());
+        context.setVariable("link", url + "check-email-token?token=" + member.getEmailCheckToken() + "&email=" + member.getEmail());
         String message = templateEngine.process("mail/check-email-form", context);
 
         EmailMessage emailMessage = EmailMessage.builder()
