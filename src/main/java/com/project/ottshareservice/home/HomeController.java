@@ -26,6 +26,12 @@ public class HomeController {
 
     private final ShareRepository shareRepository;
 
+    @ResponseBody
+    @GetMapping("/health")
+    public String healthCheck() {
+        return "ok";
+    }
+
     @GetMapping("/")
     public String index(@CurrentMember Member member, Model model) {
         List<Share> shares = shareRepository.findNew12();
